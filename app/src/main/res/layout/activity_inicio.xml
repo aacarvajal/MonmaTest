@@ -7,13 +7,9 @@
     tools:context=".InicioActivity">
 
     <ImageView
-        android:id="@+id/logoApp"
-        android:layout_width="0dp"
-        android:layout_height="304dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="117dp"
-        android:layout_marginEnd="290dp"
-        android:foregroundGravity="center"
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         app:srcCompat="@drawable/logosmr1" />
 </RelativeLayout>

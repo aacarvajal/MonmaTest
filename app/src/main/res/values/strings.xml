@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MonmaTest</string>
+    <string name="title_activity_segundo">SegundoActivity</string>
 </resources>
