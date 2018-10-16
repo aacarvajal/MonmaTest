@@ -1,38 +1,17 @@
 package com.example.adrian.monmatest;
 
-import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class InicioActivity extends AppCompatActivity {
+public class ResumenActivity extends AppCompatActivity {
 
-    private static int DURACION = 4000;
-    private static final String TAG = "activityInicio";
+    private static final String TAG = "ResumenInicio";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        MyLog.d(TAG, "Iniciando onCreate...");//es como un print para mostrar mensajes y depurar
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                Intent intent = new Intent(InicioActivity.this, ResumenActivity.class);
-                startActivity(intent);
-                finish();
-
-            }
-        },DURACION);
-
-        MyLog.d(TAG, "Finalizando onCreate...");
-
+        setContentView(R.layout.activity_resumen);
     }
-
 
     @Override
     protected void onStart() {
@@ -75,4 +54,5 @@ public class InicioActivity extends AppCompatActivity {
         super.onRestart();
         MyLog.d(TAG, "Finalizando onRestart...");
     }
+
 }
