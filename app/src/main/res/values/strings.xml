@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MonmaTest</string>
-    <string name="action_settings">Menu</string>
+    <string name="action_settings">Acerca de</string>
     <string name="action_nuevo">Nuevo</string>
     <string name="action_buscar">Buscar</string>
+    <string name="title_activity_acercade">Acerca de</string>
 </resources>
