@@ -1,7 +1,14 @@
 <resources>
+
     <string name="app_name">MonmaTest</string>
     <string name="action_settings">Acerca de</string>
     <string name="action_nuevo">Nuevo</string>
     <string name="action_buscar">Buscar</string>
-    <string name="title_activity_acercade">Acerca de</string>
+    <string name="action_listado">Listado</string>
+    <string name="action_acercade">Acerca de</string>
+    <string name="action_crearpagina">CrearPagina</string>
+    <string name="action_listapreguntas">ListaPreguntas</string>
+    <string name="title_activity_crea_preg">CreaPreg</string>
+    <string name="title_activity_listado">Listado</string>
+
 </resources>

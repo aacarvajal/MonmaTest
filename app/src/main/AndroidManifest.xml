@@ -21,7 +21,15 @@
         <activity android:name=".ResumenActivity" />
         <activity
             android:name=".AcercadeActivity"
-            android:label="@string/title_activity_acercade"
+            android:label="@string/action_acercade"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CreaPreg"
+            android:label="@string/title_activity_crea_preg"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Listado"
+            android:label="@string/title_activity_listado"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

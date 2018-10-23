@@ -1,6 +1,8 @@
 package com.example.adrian.monmatest;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -8,18 +10,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.RadioButton;
-import android.widget.TextView;
 
 public class ResumenActivity extends AppCompatActivity {
 
     private static final String TAG = "ResumenInicio";
 
-    RadioButton rb1,rb2,rb3,rb4;
-    TextView texto;
-    Button btn;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,51 +25,16 @@ public class ResumenActivity extends AppCompatActivity {
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);*/
 
-        rb1 = (RadioButton)findViewById(R.id.radioResp1);
-        rb2 = (RadioButton)findViewById(R.id.radioResp2);
-        rb3 = (RadioButton)findViewById(R.id.radioResp3);
-        rb4 = (RadioButton)findViewById(R.id.radioResp4);
-        btn = (Button)findViewById(R.id.comprobar);
-        texto = (TextView)findViewById(R.id.respuesta);
-
-        btn.setOnClickListener(new View.OnClickListener(){
-
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(rb1.isChecked()){
-
-                    texto.setText("Incorrecto");
-
-                }else if(rb2.isChecked()){
-
-                    texto.setText("Incorrecto");
-
-                }else if(rb3.isChecked()){
-
-                    texto.setText("Incorrecto");
-
-                }else if(rb4.isChecked()){
-
-                    texto.setText("Correcto");
-
-                }
-
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
-
         });
 
-
     }
-
-    /*public void respuesta(){
-
-        TextView resp1 = (TextView)findViewById(R.id.resp1);
-        TextView resp2 = (TextView)findViewById(R.id.resp2);
-        TextView resp3 = (TextView)findViewById(R.id.resp3);
-        TextView resp4 = (TextView)findViewById(R.id.resp4);
-
-    }*/
 
     @Override
     public void onBackPressed() {//para volver hacia atras pulsando el boton retroceso
@@ -97,9 +58,14 @@ public class ResumenActivity extends AppCompatActivity {
             case R.id.action_buscar:
                 Log.i("ActionBar", "Buscar!");
                 return true;
-            case R.id.action_settings:
-                Log.i("ActionBar", "Settings!");
-                Intent intent = new Intent(ResumenActivity.this,AcercadeActivity.class);
+            case R.id.action_acercade:
+                Log.i("ActionBar", "Acercade!");
+                intent = new Intent(ResumenActivity.this,AcercadeActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_listado:
+                Log.i("ActionBar", "Preguntas!");
+                intent = new Intent(ResumenActivity.this,Listado.class);
                 startActivity(intent);
                 return true;
             default:

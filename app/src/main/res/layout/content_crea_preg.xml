@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".CreaPreg"
+    tools:showIn="@layout/activity_crea_preg">
+
+    <EditText
+        android:id="@+id/preg1"
+        android:layout_width="363dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="14dp"
+        android:ems="10"
+        android:hint="Introduzca una pregunta"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/rsp1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/preg1"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="82dp"
+        android:ems="10"
+        android:hint="Introduzca una respuesta"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/rsp2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/preg1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="134dp"
+        android:ems="10"
+        android:hint="Introduzca una respuesta"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/rsp3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/preg1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="188dp"
+        android:ems="10"
+        android:hint="Introduzca una respuesta"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/rsp4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/preg1"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="235dp"
+        android:ems="10"
+        android:hint="Introduzca una respuesta"
+        android:inputType="textPersonName" />
+
+    <Button
+        android:id="@+id/btnguardar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginBottom="105dp"
+        android:text="Guardar" />
+
+</RelativeLayout>

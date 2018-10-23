@@ -7,56 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ResumenActivity">
 
-    <TextView
-        android:id="@+id/prg1"
-        android:layout_width="345dp"
-        android:layout_height="29dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="17dp"
-        android:text="1. Cuantos GB son 5 TB. Elige la respuesta correcta." />
-
-    <TextView
-        android:id="@+id/resp1"
-        android:layout_width="139dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/prg1"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="57dp"
-        android:text="a) 5 MB" />
-
-    <TextView
-        android:id="@+id/resp2"
-        android:layout_width="139dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/prg1"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="93dp"
-        android:text="b) 50 GB" />
-
-    <TextView
-        android:id="@+id/resp3"
-        android:layout_width="139dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/prg1"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="125dp"
-        android:text="c) 500 GB" />
-
-    <TextView
-        android:id="@+id/resp4"
-        android:layout_width="139dp"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/prg1"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="157dp"
-        android:text="d) 5000 GB" />
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -71,57 +21,53 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <RadioGroup
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="284dp"
-        android:layout_marginTop="54dp">
-
-        <RadioButton
-            android:id="@+id/radioResp1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <RadioButton
-            android:id="@+id/radioResp2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <RadioButton
-            android:id="@+id/radioResp3"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <RadioButton
-            android:id="@+id/radioResp4"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </RadioGroup>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="17dp"
+        app:backgroundTint="@android:color/darker_gray"
+        app:srcCompat="@drawable/baseline_add_black_18dp" />
 
     <TextView
-        android:id="@+id/respuesta"
-        android:layout_width="170dp"
-        android:layout_height="42dp"
-        android:layout_alignStart="@+id/prg1"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="93dp"
-        android:layout_marginBottom="204dp"
-        android:textSize="18sp" />
-
-    <Button
-        android:id="@+id/comprobar"
-        android:layout_width="171dp"
+        android:id="@+id/textView2"
+        android:layout_width="177dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="115dp"
-        android:layout_marginTop="205dp"
-        android:text="Comprobar" />
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="21dp"
+        android:text="Preguntas disponibles: 10" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="54dp"
+        android:text="Categorías disponibles: 2" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="86dp"
+        android:text="Cuestionarios realizados: 10" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="118dp"
+        android:text="Calificación media: 6.7/10" />
 
 </RelativeLayout>

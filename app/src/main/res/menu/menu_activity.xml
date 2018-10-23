@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".ResumenActivity">
 
-    <item android:id="@+id/action_settings"
+    <item android:id="@+id/action_acercade"
         android:title="@string/action_settings"
         android:orderInCategory="100"
         app:showAsAction="never" />
@@ -15,6 +15,11 @@
 
     <item android:id="@+id/action_nuevo"
         android:title="@string/action_nuevo"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/action_listado"
+        android:title="@string/action_listado"
         android:orderInCategory="100"
         app:showAsAction="never" />
 
