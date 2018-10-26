@@ -6,9 +6,11 @@
     <string name="action_buscar">Buscar</string>
     <string name="action_listado">Listado</string>
     <string name="action_acercade">Acerca de</string>
-    <string name="action_crearpagina">CrearPagina</string>
-    <string name="action_listapreguntas">ListaPreguntas</string>
-    <string name="title_activity_crea_preg">CreaPreg</string>
+    <string name="action_crearpagina" translatable="false">CrearPregunta</string>
+    <string name="action_listapreguntas" translatable="false">ListaPreguntas</string>
+    <string name="title_activity_crea_preg" translatable="false">CreaPreg</string>
     <string name="title_activity_listado">Listado</string>
+    <string name="write_permission_denied">Permiso denegado</string>
+    <string name="write_permission_granted">Permiso aceptado</string>
 
 </resources>
