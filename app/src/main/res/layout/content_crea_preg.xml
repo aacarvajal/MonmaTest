@@ -15,8 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="85dp"
         android:ems="10"
         android:hint="Introduzca una pregunta"
         android:inputType="textPersonName" />
@@ -27,8 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/preg1"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="82dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="213dp"
         android:ems="10"
         android:hint="Introduzca una respuesta"
         android:inputType="textPersonName" />
@@ -39,7 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/preg1"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="134dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="265dp"
         android:ems="10"
         android:hint="Introduzca una respuesta"
         android:inputType="textPersonName" />
@@ -50,7 +51,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/preg1"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="188dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="319dp"
         android:ems="10"
         android:hint="Introduzca una respuesta"
         android:inputType="textPersonName" />
@@ -61,8 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/preg1"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="235dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="102dp"
         android:ems="10"
         android:hint="Introduzca una respuesta"
         android:inputType="textPersonName" />
@@ -73,8 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="146dp"
-        android:layout_marginBottom="105dp"
+        android:layout_marginStart="147dp"
+        android:layout_marginBottom="454dp"
         android:text="Guardar" />
 
     <Spinner
@@ -83,14 +85,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="173dp" />
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="326dp" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="210dp"
         android:layout_alignTop="@+id/rsp1"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="77dp">
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="71dp">
 
         <RadioButton
             android:id="@+id/rbrsp1"

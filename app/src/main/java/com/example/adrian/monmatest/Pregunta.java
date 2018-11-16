@@ -12,7 +12,7 @@ public class Pregunta {
 
     /*public Pregunta() {
 
-    }
+    }*/
 
     public Pregunta(int id, String enunciado, String rsp1, String rsp2, String rsp3, String rsp4, String categoria) {
         this.id = id;
@@ -22,7 +22,7 @@ public class Pregunta {
         this.rsp3 = rsp3;
         this.rsp4 = rsp4;
         this.categoria = categoria;
-    }*/
+    }
 
     public Pregunta(String enunciado, String rsp1, String rsp2, String rsp3, String rsp4, String categoria) {
         this.enunciado = enunciado;

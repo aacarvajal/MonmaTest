@@ -38,14 +38,14 @@ public class CreaPreg extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Preguntas");//cambiar el titulo de la actividad
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         //para usar el spinner
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -128,9 +128,9 @@ public class CreaPreg extends AppCompatActivity {
                     });
 
                     //AQUI VA LO DE INSERTAR
-                    Pregunta p = new Pregunta(edt1.getText().toString(), spiner.getSelectedItem().toString(),
-                            edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(),
-                            edt5.getText().toString());
+                    Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(),
+                            edt3.getText().toString(), edt4.getText().toString(),
+                            edt5.getText().toString(), spiner.getSelectedItem().toString());
 
                     Repositorio.insertar(p, myContext);
 

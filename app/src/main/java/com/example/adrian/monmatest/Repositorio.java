@@ -1,11 +1,24 @@
 package com.example.adrian.monmatest;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class Repositorio{
+import java.util.ArrayList;
 
-    //Pregunta p = new Pregunta();
+public class Repositorio {
+
+    private static ArrayList<Pregunta> pregArray = new ArrayList<>();
+    private static Pregunta p;
+    private static final Repositorio instance = new Repositorio();
+
+    private Repositorio() {
+    }
+
+    public static Repositorio getInstance() {
+        return instance;
+    }
 
     public static void insertar(Pregunta p, Context contexto) {
 
@@ -14,7 +27,7 @@ public class Repositorio{
 
         //Abrimos la base de datos 'DBUsuarios' en modo escritura
         PreguntaSQLiteHelper helper =
-                new PreguntaSQLiteHelper(contexto, "monmatest", null, 1);
+                new PreguntaSQLiteHelper(contexto, "monmatest.db", null, 1);
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -22,18 +35,14 @@ public class Repositorio{
         if (db != null) {
             //Insertamos los getter de las variables
 
-            for (int i = 1; i <= 5; i++) {
-                //Generamos los datos
-                int codigo = i;
-                String nombre = "Pregunta" + i;
                 //Insertar un registro
                 db.execSQL("INSERT INTO Pregunta (enunciado, rsp1, rsp2, rsp3, rsp4, categoria)" +
                         "VALUES ('" + p.getEnunciado() + "','" + p.getRsp1() + "'," + " '" + p.getRsp2() + "'," +
                         " '" + p.getRsp3() + "', '" + p.getRsp4() + "','" + p.getCategoria() + "')");
 
-                //codigo, enunciado,categoria, respuestaCorrecta, respuestaIncorrecta1, respuestaIncorrecta2 , respuestaIncorrecta3
+
+
                 //Cerramos la base de datos
-            }
             db.close();
         } else {
 
@@ -41,17 +50,106 @@ public class Repositorio{
 
         }
 
-        /*//Creamos el registro a insertar como objeto ContentValues
-        ContentValues nuevoRegistro = new ContentValues();
-        nuevoRegistro.put("enunciado", p.getEnunciado());
-        nuevoRegistro.put("respuesta1", p.getRsp1());
-        nuevoRegistro.put("respuesta2", p.getRsp2());
-        nuevoRegistro.put("respuesta3", p.getRsp3());
-        nuevoRegistro.put("respuesta4", p.getRsp4());
 
-        //Insertamos el registro en la base de datos
-        db.insert("monmatest", null, nuevoRegistro);*/
+    }
 
+    public static void Actualizar(Pregunta p, Context contexto) {
+
+        PreguntaSQLiteHelper helper =
+                new PreguntaSQLiteHelper(contexto, "monmatest", null, 1);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        int codigo = p.getId();
+        String enunciado = p.getEnunciado();
+        String rsp1 = p.getRsp1();
+        String rsp2 = p.getRsp2();
+        String rsp3 = p.getRsp3();
+        String rsp4 = p.getRsp4();
+        String categoria = p.getCategoria();
+
+        ContentValues values = new ContentValues();
+
+        values.put("Codigo", codigo);
+        values.put("Enunciado", enunciado);
+        values.put("Respuesta1", rsp1);
+        values.put("Respuesta2", rsp2);
+        values.put("Respuesta3", rsp3);
+        values.put("Respuesta4", rsp4);
+        values.put("Categoria", categoria);
+
+        db.update("Pregunta", values, "codigo=" + codigo, null);
+
+    }
+
+    public static void Borrar(Pregunta p, Context contexto) {
+
+        PreguntaSQLiteHelper helper =
+                new PreguntaSQLiteHelper(contexto, "monmatest", null, 1);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        int codigo = p.getId();
+        String enunciado = p.getEnunciado();
+        String rsp1 = p.getRsp1();
+        String rsp2 = p.getRsp2();
+        String rsp3 = p.getRsp3();
+        String rsp4 = p.getRsp4();
+        String categoria = p.getCategoria();
+
+        ContentValues values = new ContentValues();
+
+        values.put("Codigo", codigo);
+        values.put("Enunciado", enunciado);
+        values.put("Respuesta1", rsp1);
+        values.put("Respuesta2", rsp2);
+        values.put("Respuesta3", rsp3);
+        values.put("Respuesta4", rsp4);
+        values.put("Categoria", categoria);
+
+        db.delete("Pregunta", "codigo=" + codigo, null);
+
+    }
+
+    public ArrayList<Pregunta> Consultar(Context contexto){
+
+        pregArray.clear();
+
+        PreguntaSQLiteHelper helper =
+                new PreguntaSQLiteHelper(contexto, "monmatest.db", null, 1);
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM Pregunta", null);
+
+        if(c.moveToFirst()){
+
+            do{
+
+                int codigo = c.getInt( c.getColumnIndex("codigo"));
+                String enunciado = c.getString( c.getColumnIndex("enunciado"));
+                String rsp1 = c.getString( c.getColumnIndex("rsp1"));
+                String rsp2 = c.getString( c.getColumnIndex("rsp2"));
+                String rsp3 = c.getString( c.getColumnIndex("rsp3"));
+                String rsp4 = c.getString( c.getColumnIndex("rsp4"));
+                String categoria = c.getString( c.getColumnIndex("categoria"));
+                Pregunta p = new Pregunta(codigo,enunciado,rsp1,rsp2,rsp3,rsp4,categoria);
+                pregArray.add(p);
+
+            }while(c.moveToNext());
+
+        }
+
+        return pregArray;
+
+    }
+
+    public ArrayList<Pregunta> getListaPreguntas() {
+        return pregArray;
+    }
+
+    public void setListaPreguntas(ArrayList<Pregunta> pregArray) {
+        this.pregArray = pregArray;
     }
 
 }
