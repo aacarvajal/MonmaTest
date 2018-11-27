@@ -45,7 +45,6 @@ public class Listado extends AppCompatActivity {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 Intent in = new Intent(Listado.this, CreaPreg.class);
-                //in.putExtra("editar", false );
                 startActivity(in);
             }
         });
@@ -200,9 +199,9 @@ public class Listado extends AppCompatActivity {
                 public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
                     final int position = viewHolder.getAdapterPosition(); //get position which is swipe
 
-                    /*if (direction == ItemTouchHelper.LEFT) { //if swipe left
+                    if (direction == ItemTouchHelper.LEFT) { //if swipe left
 
-                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(Listado.this);
+                        /*AlertDialog.Builder mBuilder = new AlertDialog.Builder(Listado.this);
                         mBuilder.setTitle("Atención");
                         mBuilder.setMessage("¿Quiere borrar el contenido?");
                         Button btn_Eliminar = (Button) mView.findViewById(R.id.btnConfirm);
@@ -225,8 +224,37 @@ public class Listado extends AppCompatActivity {
 
                         mBuilder.setView(mView);
                         final AlertDialog dialog = mBuilder.create();
+                        dialog.show();*/
+
+                        //seguir por aqui
+
+                        AlertDialog.Builder mBuilder = new AlertDialog.Builder(Listado.this);
+                        mBuilder.setTitle("Atención");
+                        mBuilder.setMessage("¿Quiere borrar el contenido?");
+
+                        mBuilder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                r.Borrar(preguntas.get(position), myContext);
+                                recreate();
+
+                                return;
+                            }
+                        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                recreate();
+                                return;
+                            }
+                        });
+
+                        //mBuilder.setView(mView);
+                        final AlertDialog dialog = mBuilder.create();
                         dialog.show();
-                    }*/
+
+                    }
 
                     if (direction == ItemTouchHelper.RIGHT) { //if swipe right
 
@@ -250,8 +278,6 @@ public class Listado extends AppCompatActivity {
 
                                 r.Actualizar(p, myContext);
 
-                                //int position = rv.getChildAdapterPosition(viewHolder);
-
                                 Intent it = new Intent(Listado.this, CreaPreg.class);
 
                                 it.putExtra("codigo", preguntas.get(position).getId());
@@ -261,9 +287,6 @@ public class Listado extends AppCompatActivity {
                                 it.putExtra("rsp3", preguntas.get(position).getRsp3());
                                 it.putExtra("rsp4", preguntas.get(position).getRsp4());
                                 it.putExtra("categoria", preguntas.get(position).getCategoria());
-
-
-                                //it.putExtra("editar", true);
 
                                 startActivity(it);
 
@@ -291,23 +314,6 @@ public class Listado extends AppCompatActivity {
             rv.setLayoutManager(new LinearLayoutManager(this));
             MyLog.d(TAG, "Finalizando OnResume");
 
-            /*MyLog.d(TAG, "PruebaPruebaPruebaPruebaPruebaPruebaPruebaPruebaPrueba");
-
-                    int position = rv.getChildAdapterPosition(v);
-
-                    Intent it = new Intent(Listado.this, CreaPreg.class);
-
-                    it.putExtra("codigo", preguntas.get(position).getId());
-                    it.putExtra("enunciado", preguntas.get(position).getEnunciado());
-                    it.putExtra("respuestaCorrecta", preguntas.get(position).getRsp1());
-                    it.putExtra("respuestaIncorrecta1", preguntas.get(position).getRsp2());
-                    it.putExtra("respuestaIncorrecta2", preguntas.get(position).getRsp3());
-                    it.putExtra("respuestaIncorrecta3", preguntas.get(position).getRsp4());
-                    it.putExtra("categoria", preguntas.get(position).getCategoria());
-                    it.putExtra("editar", true);
-
-                    startActivity(it);*/
-
             // Muestra el RecyclerView en vertical
             rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -317,25 +323,6 @@ public class Listado extends AppCompatActivity {
             TextView e = findViewById(R.id.sinprg);
             e.setVisibility(View.VISIBLE);
         }
-
-        /*new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-                preguntas.remove(viewHolder.getAdapterPosition());
-
-                Toast.makeText(Listado.this, "Pregunta borrada", Toast.LENGTH_SHORT).show();
-
-                rva.notifyDataSetChanged();
-
-
-            }
-        }).attachToRecyclerView(rv);*/
 
     }
 

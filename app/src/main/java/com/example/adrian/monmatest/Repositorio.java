@@ -97,7 +97,7 @@ public class Repositorio {
 
     }
 
-    public static void Borrar(Context contexto) {
+    public static void Borrar(Pregunta p,Context contexto) {
 
         PreguntaSQLiteHelper helper =
                 new PreguntaSQLiteHelper(contexto, "monmatest.db", null, 1);

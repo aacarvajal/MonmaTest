@@ -54,7 +54,7 @@ public class CreaPreg extends AppCompatActivity {
 
         categorias = new ArrayList<String>(Arrays.asList(categoria));
 
-
+        ArrayAdapter<String>ad = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoria);
         spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoria));
 
         //categoria.to(getIntent().getExtras().getString("categoria"));
@@ -141,37 +141,38 @@ public class CreaPreg extends AppCompatActivity {
                                 Snackbar.make(relativeCreaPreg, getResources().getString(R.string.write_permission_granted), Snackbar.LENGTH_LONG)
                                         .show();
 
-                                if (codigo == -1) {
-
-                                    Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(), spinner.getSelectedItem().toString());
-
-                                    r.insertar(p, myContext);
-
-                                    finish();
-
-                                } else {
-
-                                    Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(), spinner.getSelectedItem().toString());
-                                    p.setId(codigo);
-                                    //r.insertar(p, myContext);
-                                    r.Actualizar(p, myContext);
-                                    finish();
-
-                                }
 
                             }
 
                         }
                     });
 
+                    if (codigo == -1) {
+
+                        Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(), spinner.getSelectedItem().toString());
+
+                        r.insertar(p, myContext);
+
+                        finish();
+
+                    } else {
+
+                        Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(), spinner.getSelectedItem().toString());
+                        p.setId(codigo);
+                        //r.insertar(p, myContext);
+                        r.Actualizar(p, myContext);
+                        finish();
+
+                    }
+
                     //AQUI VA LO DE INSERTAR
-                    Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(),
+                    /*Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(),
                             edt3.getText().toString(), edt4.getText().toString(),
                             edt5.getText().toString(), spiner.getSelectedItem().toString());
 
                     Repositorio.insertar(p, myContext);
 
-                    finish();
+                    finish();*/
 
 
                 }
