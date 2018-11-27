@@ -54,6 +54,7 @@ public class ResumenActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_nuevo:
                 Log.i("ActionBar", "Nuevo!");
+                intent = new Intent(ResumenActivity.this,CreaPreg.class);
                 return true;
             case R.id.action_buscar:
                 Log.i("ActionBar", "Buscar!");

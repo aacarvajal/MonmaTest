@@ -53,14 +53,14 @@ public class Repositorio {
 
     }
 
-    public static void Actualizar(Pregunta p, Context contexto) {
+    public void Actualizar(Pregunta p, Context contexto) {
 
         PreguntaSQLiteHelper helper =
-                new PreguntaSQLiteHelper(contexto, "monmatest", null, 1);
+                new PreguntaSQLiteHelper(contexto, "monmatest.db", null, 1);
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        int codigo = p.getId();
+        /*int codigo = p.getId();
         String enunciado = p.getEnunciado();
         String rsp1 = p.getRsp1();
         String rsp2 = p.getRsp2();
@@ -70,24 +70,39 @@ public class Repositorio {
 
         ContentValues values = new ContentValues();
 
-        values.put("Codigo", codigo);
-        values.put("Enunciado", enunciado);
-        values.put("Respuesta1", rsp1);
-        values.put("Respuesta2", rsp2);
-        values.put("Respuesta3", rsp3);
-        values.put("Respuesta4", rsp4);
-        values.put("Categoria", categoria);
+        //values.put("Codigo", codigo);
+        values.put("enunciado", enunciado);
+        values.put("rsp1", rsp1);
+        values.put("rsp2", rsp2);
+        values.put("rsp3", rsp3);
+        values.put("rsp4", rsp4);
+        values.put("categoria", categoria);
 
-        db.update("Pregunta", values, "codigo=" + codigo, null);
+        db.update("Pregunta", values, "codigo=" + codigo, null);*/
+
+        if (db != null) {
+            //Insertamos los datos en la tabla Usuarios
+
+            db.execSQL("UPDATE Pregunta SET enunciado = " + "'" + p.getEnunciado()
+                    + "', rsp1 = " + "'" + p.getRsp1()
+                    + "', rsp2 = " + "'" + p.getRsp2()
+                    + "', rsp3 = " + "'" + p.getRsp3()
+                    + "', rsp4 = " + "'" + p.getRsp4()
+                    + "', categoria = " + "'" + p.getCategoria()
+                    + "' WHERE codigo = " + p.getId());
+        }
+
+        db.close();
+
 
     }
 
-    public static void Borrar(Pregunta p, Context contexto) {
+    public static void Borrar(Context contexto) {
 
         PreguntaSQLiteHelper helper =
-                new PreguntaSQLiteHelper(contexto, "monmatest", null, 1);
+                new PreguntaSQLiteHelper(contexto, "monmatest.db", null, 1);
 
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = helper.getReadableDatabase();
 
         int codigo = p.getId();
         String enunciado = p.getEnunciado();
@@ -99,13 +114,13 @@ public class Repositorio {
 
         ContentValues values = new ContentValues();
 
-        values.put("Codigo", codigo);
-        values.put("Enunciado", enunciado);
-        values.put("Respuesta1", rsp1);
-        values.put("Respuesta2", rsp2);
-        values.put("Respuesta3", rsp3);
-        values.put("Respuesta4", rsp4);
-        values.put("Categoria", categoria);
+        values.put("codigo", codigo);
+        values.put("enunciado", enunciado);
+        values.put("rsp1", rsp1);
+        values.put("rsp2", rsp2);
+        values.put("rsp3", rsp3);
+        values.put("rsp4", rsp4);
+        values.put("categoria", categoria);
 
         db.delete("Pregunta", "codigo=" + codigo, null);
 

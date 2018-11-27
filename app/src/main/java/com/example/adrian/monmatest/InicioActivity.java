@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 public class InicioActivity extends AppCompatActivity {
 
-    private static int DURACION = 4000;
+    private static int DURACION = 1000;
     private static final String TAG = "activityInicio";
 
     @Override

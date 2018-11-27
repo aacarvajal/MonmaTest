@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PreguntaAdapter extends RecyclerView.Adapter<PreguntaAdapter.PreguntaViewHolder>
         implements View.OnClickListener {
@@ -76,6 +77,14 @@ public class PreguntaAdapter extends RecyclerView.Adapter<PreguntaAdapter.Pregun
     public void onClick(View view) {
         if (listener != null)
             listener.onClick(view);
+    }
+
+    public List<Pregunta> preguntas;
+
+    public PreguntaAdapter(List<Pregunta> preguntas) {
+
+        this.preguntas = preguntas;
+
     }
 
 }

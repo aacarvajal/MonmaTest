@@ -2,6 +2,7 @@ package com.example.adrian.monmatest;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class CreaPreg extends AppCompatActivity {
 
     private EditText edt1, edt2, edt3, edt4, edt5;
@@ -28,6 +32,10 @@ public class CreaPreg extends AppCompatActivity {
     private Context myContext;
     private RelativeLayout relativeCreaPreg;
     private Spinner spiner;
+    private int codigo;
+    private Pregunta p;
+    private Repositorio r = Repositorio.getInstance();
+    private ArrayList<String> categorias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +46,20 @@ public class CreaPreg extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Preguntas");//cambiar el titulo de la actividad
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         //para usar el spinner
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        String[] categoria = {"Montaje y mantenimiento de equipos", "FOL", "Redes locales", "Aplicaciones ofimáticas", "Sistemas operativos monopuesto"};
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        final String[] categoria = {"Montaje y mantenimiento de equipos", "FOL", "Redes locales", "Aplicaciones ofimáticas", "Sistemas operativos monopuesto"};
+
+        categorias = new ArrayList<>();
+
+        categorias = new ArrayList<String>(Arrays.asList(categoria));
+
+
         spinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categoria));
 
-        //COMPROBAR SI LOS CAMPOS ESTAN VACIOS
+        //categoria.to(getIntent().getExtras().getString("categoria"));
 
+        //COMPROBAR SI LOS CAMPOS ESTAN VACIOS
         edt1 = (EditText) findViewById(R.id.preg1);
         edt2 = (EditText) findViewById(R.id.rsp1);
         edt3 = (EditText) findViewById(R.id.rsp2);
@@ -61,6 +67,18 @@ public class CreaPreg extends AppCompatActivity {
         edt5 = (EditText) findViewById(R.id.rsp4);
         btn = (Button) findViewById(R.id.btnguardar);
         spiner = (Spinner) findViewById(R.id.spinner);
+
+        try {
+            codigo = getIntent().getExtras().getInt("codigo");
+            edt1.setText(getIntent().getExtras().getString("enunciado"));
+            edt2.setText(getIntent().getExtras().getString("rsp1"));
+            edt3.setText(getIntent().getExtras().getString("rsp2"));
+            edt4.setText(getIntent().getExtras().getString("rsp3"));
+            edt5.setText(getIntent().getExtras().getString("rsp4"));
+            spinner.setSelection(categorias.indexOf(getIntent().getExtras().getString("categoria")));
+        } catch (NullPointerException e) {
+            codigo = -1;
+        }
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +114,7 @@ public class CreaPreg extends AppCompatActivity {
                     //INCLUSION DE PERMISOS
 
                     // Recuperamos el Layout donde mostrar el Snackbar con las notificaciones
-                    relativeCreaPreg = findViewById(R.id.relativeCreaPreg);
+                    relativeCreaPreg = findViewById(R.id.recyclerView);
 
                     // Almacenamos el contexto de la actividad para utilizar en las clases internas
                     myContext = CreaPreg.this;
@@ -122,6 +140,25 @@ public class CreaPreg extends AppCompatActivity {
                                 // Permiso aceptado
                                 Snackbar.make(relativeCreaPreg, getResources().getString(R.string.write_permission_granted), Snackbar.LENGTH_LONG)
                                         .show();
+
+                                if (codigo == -1) {
+
+                                    Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(), spinner.getSelectedItem().toString());
+
+                                    r.insertar(p, myContext);
+
+                                    finish();
+
+                                } else {
+
+                                    Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(), spinner.getSelectedItem().toString());
+                                    p.setId(codigo);
+                                    //r.insertar(p, myContext);
+                                    r.Actualizar(p, myContext);
+                                    finish();
+
+                                }
+
                             }
 
                         }
