@@ -10,7 +10,7 @@ import android.view.View;
 
 public class AcercadeActivity extends AppCompatActivity {
 
-    private static final String TAG = "ResumenInicio";
+    private static final String TAG = "AcercadeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class AcercadeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //crea una flecha que nos permitira retroceder a la actividad anterior
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

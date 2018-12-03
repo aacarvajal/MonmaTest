@@ -23,7 +23,7 @@ import java.util.List;
 
 public class Listado extends AppCompatActivity {
 
-    private static final String TAG = "ResumenInicio";
+    private static final String TAG = "Listado";
     private Intent intent;
     private Context myContext = this;
     private List<Pregunta> preguntas;
@@ -38,12 +38,11 @@ public class Listado extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //crea un boton flotante al que se le puede dar cualquier funcionalidad
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
                 Intent in = new Intent(Listado.this, CreaPreg.class);
                 startActivity(in);
             }
@@ -122,60 +121,20 @@ public class Listado extends AppCompatActivity {
         MyLog.d(TAG, "Iniciando onResume...");//es como un print para mostrar mensajes y depurar
         super.onResume();
 
-        //recycler view
-        /*cargarListado();
-
-        r = Repositorio.getInstance();
-        Collections.reverse(preguntas);//invertir el orden de la lista para incluir en la primera posicion la ultima creada
-        preguntas = r.getListaPreguntas();
-        // Inicializa el RecyclerView
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        if (!preguntas.isEmpty()) {
-            TextView e = findViewById(R.id.sinprg);
-            e.setVisibility(View.INVISIBLE);
-
-            // Crea el Adaptador con los datos de la lista anterior
-            PreguntaAdapter adaptador = new PreguntaAdapter(preguntas);
-
-            // Asocia el elemento de la lista con una acción al ser pulsado
-            adaptador.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Acción al pulsar el elemento
-                    int position = recyclerView.getChildAdapterPosition(v);
-                    Toast.makeText(Listado.this, "Posición: " + String.valueOf(position)
-                            + " Id: " + preguntas.get(position).getId() + " Nombre: " +
-                            preguntas.get(position).getEnunciado(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            // Asocia el Adaptador al RecyclerView
-            recyclerView.setAdapter(adaptador);
-
-            // Muestra el RecyclerView en vertical
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            MyLog.d(TAG, "Finalizando onResume...");
-        } else {
-            TextView e = findViewById(R.id.sinprg);
-            e.setVisibility(View.VISIBLE);
-        }*/
-
         //CardView
 
         rv = findViewById(R.id.recyclerView);//id del recyclerview
+
         rv.setLayoutManager(new LinearLayoutManager(this));
 
         r = Repositorio.getInstance();
 
         preguntas = r.getListaPreguntas();
 
-        //rv = new RecyclerView((Context) cargarListado());
+        rva = new CardViewAdapter(cargarListado());//aqui conseguimos que se muestren todas las preguntas guardadas
 
-        rva = new CardViewAdapter(cargarListado());
-
-        //rv.setAdapter(rva);
-        Collections.reverse(preguntas);
+        Collections.reverse(preguntas);//con esto conseguimos que se ordenede poniendo el mas reciente en primera posicion
+        //y el mas antiguo en la ultima posicion
 
         if (!preguntas.isEmpty()) {
             TextView e = findViewById(R.id.sinprg);
@@ -187,6 +146,8 @@ public class Listado extends AppCompatActivity {
             // Asocia el Adaptador al RecyclerView
             rv.setAdapter(adaptador);
 
+            //con ItemTouchHelper conseguimos el efecto de swipe, con el que se podra desplazar el cardview
+            //a derecha e izquierda
             ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback
                     (0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
                 @Override
@@ -199,39 +160,17 @@ public class Listado extends AppCompatActivity {
                 public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
                     final int position = viewHolder.getAdapterPosition(); //get position which is swipe
 
-                    if (direction == ItemTouchHelper.LEFT) { //if swipe left
+                    if (direction == ItemTouchHelper.LEFT) { //swipe izquierda
 
-                        /*AlertDialog.Builder mBuilder = new AlertDialog.Builder(Listado.this);
-                        mBuilder.setTitle("Atención");
-                        mBuilder.setMessage("¿Quiere borrar el contenido?");
-                        Button btn_Eliminar = (Button) mView.findViewById(R.id.btnConfirm);
-                        btn_Eliminar.setText("Eliminar");
-                        btn_Eliminar.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View v) {
-                                r.eliminarPegunta(items.get(position).getCodigo(), miContexto);
-                                recreate();
-                                return;
-                            }
-                        });
-                        Button btn_Cancelar = (Button) mView.findViewById(R.id.btnCancel);
-                        btn_Cancelar.setText("Cancelar");
-                        btn_Cancelar.setOnClickListener(new View.OnClickListener() {
-                            public void onClick(View v) {
-                                recreate();
-                                return;
-                            }
-                        });
-
-                        mBuilder.setView(mView);
-                        final AlertDialog dialog = mBuilder.create();
-                        dialog.show();*/
-
-                        //seguir por aqui
-
+                        //con alertdialog builder añadimos una ventana emergente como advertencia
+                        //a la hora de desplazar el cardview para preguntar si esta seguro de la accion
+                        //que quiere realizar
                         AlertDialog.Builder mBuilder = new AlertDialog.Builder(Listado.this);
+                        //se construye el titulo del mensaje
                         mBuilder.setTitle("Atención");
+                        //se construye el mensaje que se mostrara en la ventana
                         mBuilder.setMessage("¿Quiere borrar el contenido?");
-
+                        //boton de aceptar que borrara la pregunta
                         mBuilder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
 
                             @Override
@@ -241,6 +180,7 @@ public class Listado extends AppCompatActivity {
                                 recreate();
 
                                 return;
+                                //boton que cancelara la accion
                             }
                         }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             @Override
@@ -256,7 +196,7 @@ public class Listado extends AppCompatActivity {
 
                     }
 
-                    if (direction == ItemTouchHelper.RIGHT) { //if swipe right
+                    if (direction == ItemTouchHelper.RIGHT) { //swipe derecha
 
                         AlertDialog.Builder mBuilder = new AlertDialog.Builder(Listado.this);
                         mBuilder.setTitle("Atención");
@@ -266,6 +206,7 @@ public class Listado extends AppCompatActivity {
 
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                //se guardan en varaibles cada campo para despues pasarselos al objeto de pregunta
                                 int codigo = preguntas.get(position).getId();
                                 String enunciado = preguntas.get(position).getEnunciado();
                                 String rsp1 = preguntas.get(position).getRsp1();
@@ -279,7 +220,7 @@ public class Listado extends AppCompatActivity {
                                 r.Actualizar(p, myContext);
 
                                 Intent it = new Intent(Listado.this, CreaPreg.class);
-
+                                //se pasan todos los datos a sus campos correspondientes
                                 it.putExtra("codigo", preguntas.get(position).getId());
                                 it.putExtra("enunciado", preguntas.get(position).getEnunciado());
                                 it.putExtra("rsp1", preguntas.get(position).getRsp1());
@@ -287,7 +228,7 @@ public class Listado extends AppCompatActivity {
                                 it.putExtra("rsp3", preguntas.get(position).getRsp3());
                                 it.putExtra("rsp4", preguntas.get(position).getRsp4());
                                 it.putExtra("categoria", preguntas.get(position).getCategoria());
-
+                                //iniciara la actividad con todos los datos introducidos
                                 startActivity(it);
 
                                 return;
@@ -308,7 +249,7 @@ public class Listado extends AppCompatActivity {
             };
 
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-            itemTouchHelper.attachToRecyclerView(rv); //set swipe to recylcerview
+            itemTouchHelper.attachToRecyclerView(rv); //le da la capacidad de desplazamiento al cardview
 
             // Muestra el RecyclerView en vertical
             rv.setLayoutManager(new LinearLayoutManager(this));
@@ -320,6 +261,7 @@ public class Listado extends AppCompatActivity {
             MyLog.d(TAG, "Finalizando onResume...");
 
         } else {
+            //si la base de datos esta vacia se mostrara un mensaje notificando que no hay preguntas, sino el mensaje se ocultara.
             TextView e = findViewById(R.id.sinprg);
             e.setVisibility(View.VISIBLE);
         }
@@ -336,7 +278,6 @@ public class Listado extends AppCompatActivity {
     private List<Pregunta> cargarListado() {
         Repositorio r = Repositorio.getInstance();
         preguntas = r.Consultar(this);
-
         return preguntas;
 
     }

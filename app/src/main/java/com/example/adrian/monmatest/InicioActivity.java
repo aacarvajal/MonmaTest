@@ -7,8 +7,8 @@ import android.os.Bundle;
 
 public class InicioActivity extends AppCompatActivity {
 
-    private static int DURACION = 1000;
-    private static final String TAG = "activityInicio";
+    private static int DURACION = 3000;
+    private static final String TAG = "InicioActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +18,7 @@ public class InicioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio);
 
+        //aqui iniciamos un cambio de actividad, pero pasara pasados unos segundos
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="21dp"
         android:layout_marginTop="8dp"
-        android:text="Version 1.3"
+        android:text="@string/version_1_3"
         android:textSize="18sp" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="46dp"
-        android:text="MonmaTest es una aplicación que almacena tests para después poder practicar haciéndolos."
+        android:text="@string/monmatest_es_una_aplicaci_n_que_almacena_tests_para_despu_s_poder_practicar_haci_ndolos"
         android:textSize="18sp" />
 
     <TextView
@@ -38,6 +38,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
         android:layout_marginBottom="289dp"
-        android:text="Author: Adrián Carvajal Pérez"
+        android:text="@string/author_adri_n_carvajal_p_rez"
         android:textSize="18sp" />
 </RelativeLayout>

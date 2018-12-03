@@ -16,10 +16,16 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     private static Context myContext;
 
+
+    //se crean las variables necesarias que se mostraran en el cardview
+// Clase interna:
+// Se implementa el ViewHolder que se encargara
+// de almacenar la vista del elemento y sus datos
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView enunciado, categoria;
 
+        //constructor de la clase
         public ViewHolder(View v) {
 
             super(v);
@@ -30,14 +36,18 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     }
 
+    //almacena todos los datos mostrados en cada cardview
     public List<Pregunta> preguntas;
 
+    //constructor del adaptador que recibe como parametro la lista creada
     public CardViewAdapter(List<Pregunta> preguntas) {
 
         this.preguntas = preguntas;
 
     }
 
+    //es el encargado de inflar el contenido de un nuevo componente para la lista
+    //"inflar" quiere decir que un layout se usara dentro de otro layout
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -50,6 +60,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     }
 
+    //aqui se hacen las modificaciones del contenido para cada componente
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
@@ -58,6 +69,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
 
     }
 
+    //permite al adaptador saber la cantidad de elementos que se crean.
     @Override
     public int getItemCount() {
         return preguntas.size();

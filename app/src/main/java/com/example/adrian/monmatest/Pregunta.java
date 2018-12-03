@@ -10,9 +10,9 @@ public class Pregunta {
     private String rsp4;
     private String categoria;
 
-    /*public Pregunta() {
+    public Pregunta() {
 
-    }*/
+    }
 
     public Pregunta(int id, String enunciado, String rsp1, String rsp2, String rsp3, String rsp4, String categoria) {
         this.id = id;

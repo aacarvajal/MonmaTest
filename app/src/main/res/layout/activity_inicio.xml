@@ -14,5 +14,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="3dp"
         android:layout_marginTop="0dp"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        android:contentDescription="@string/todo" />
 </RelativeLayout>
