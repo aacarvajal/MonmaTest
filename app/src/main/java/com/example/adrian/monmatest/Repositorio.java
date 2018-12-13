@@ -10,8 +10,7 @@ import java.util.ArrayList;
 
 public class Repositorio {
 
-    private static ArrayList<Pregunta> pregArray = new ArrayList<>();
-    private static Pregunta p;
+    private static ArrayList<Pregunta> pregArray;
     private static final Repositorio instance = new Repositorio();
     private static ArrayList<String> categorias;
 
@@ -38,14 +37,13 @@ public class Repositorio {
         if (db != null) {
             //Insertamos los getter de las variables
 
-                //Insertar un registro
-                db.execSQL("INSERT INTO Pregunta (enunciado, rsp1, rsp2, rsp3, rsp4, categoria)" +
-                        "VALUES ('" + p.getEnunciado() + "','" + p.getRsp1() + "'," + " '" + p.getRsp2() + "'," +
-                        " '" + p.getRsp3() + "', '" + p.getRsp4() + "','" + p.getCategoria() + "')");
+            //Insertar un registro
+            db.execSQL("INSERT INTO Pregunta (enunciado, rsp1, rsp2, rsp3, rsp4, categoria)" +
+                    "VALUES ('" + p.getEnunciado() + "','" + p.getRsp1() + "'," + " '" + p.getRsp2() + "'," +
+                    " '" + p.getRsp3() + "', '" + p.getRsp4() + "','" + p.getCategoria() + "')");
 
 
-
-                //Cerramos la base de datos
+            //Cerramos la base de datos
             db.close();
         } else {
 
@@ -82,7 +80,7 @@ public class Repositorio {
     }
 
     //este metodo se encarga de borrar una pregunta  haciendo una comparacion de ID
-    public static void Borrar(Pregunta p,Context myContext) {
+    public static void Borrar(Pregunta p, Context myContext) {
 
         PreguntaSQLiteHelper helper =
                 new PreguntaSQLiteHelper(myContext, BD, null, 1);
@@ -96,7 +94,9 @@ public class Repositorio {
     }
 
     //este metodo se encarga de mostrar todos los datos de la BD en el listado
-    public ArrayList<Pregunta> Consultar(Context myContext){
+    public ArrayList<Pregunta> Consultar(Context myContext) {
+
+        pregArray = new ArrayList<>();
 
         pregArray.clear();
 
@@ -107,21 +107,21 @@ public class Repositorio {
 
         Cursor c = db.rawQuery("SELECT * FROM Pregunta", null);
 
-        if(c.moveToFirst()){
+        if (c.moveToFirst()) {
 
-            do{
+            do {
 
-                int codigo = c.getInt( c.getColumnIndex("codigo"));
-                String enunciado = c.getString( c.getColumnIndex("enunciado"));
-                String rsp1 = c.getString( c.getColumnIndex("rsp1"));
-                String rsp2 = c.getString( c.getColumnIndex("rsp2"));
-                String rsp3 = c.getString( c.getColumnIndex("rsp3"));
-                String rsp4 = c.getString( c.getColumnIndex("rsp4"));
-                String categoria = c.getString( c.getColumnIndex("categoria"));
-                Pregunta p = new Pregunta(codigo,enunciado,rsp1,rsp2,rsp3,rsp4,categoria);
+                int codigo = c.getInt(c.getColumnIndex("codigo"));
+                String enunciado = c.getString(c.getColumnIndex("enunciado"));
+                String rsp1 = c.getString(c.getColumnIndex("rsp1"));
+                String rsp2 = c.getString(c.getColumnIndex("rsp2"));
+                String rsp3 = c.getString(c.getColumnIndex("rsp3"));
+                String rsp4 = c.getString(c.getColumnIndex("rsp4"));
+                String categoria = c.getString(c.getColumnIndex("categoria"));
+                Pregunta p = new Pregunta(codigo, enunciado, rsp1, rsp2, rsp3, rsp4, categoria);
                 pregArray.add(p);
 
-            }while(c.moveToNext());
+            } while (c.moveToNext());
 
         }
 
@@ -130,10 +130,10 @@ public class Repositorio {
     }
 
     //este metodo se encarga de coger y mostrar de la BD todas las categorias que ya estaban guardadas
-    public static void cargarCategorias(Context myContext){
+    public static void cargarCategorias(Context myContext) {
 
 
-        categorias= new ArrayList<>();
+        categorias = new ArrayList<>();
 
 
         PreguntaSQLiteHelper helper =
@@ -148,16 +148,57 @@ public class Repositorio {
 
             do {
 
-                String categoria = c.getString( c.getColumnIndex("categoria"));
-
+                String categoria = c.getString(c.getColumnIndex("categoria"));
 
                 categorias.add(categoria);
 
-            } while(c.moveToNext());
+            } while (c.moveToNext());
         }
 
 
+    }
 
+    //Este metodo devolvera el total de las preguntas que se hayan creado en la BD
+    public static String getTotalPreg(Context myContext) {
+
+        String totalPreg = "";
+
+        PreguntaSQLiteHelper helper =
+                new PreguntaSQLiteHelper(myContext, BD, null, 1);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        Cursor c = db.rawQuery("SELECT count(distinct codigo) FROM '" + Pregunta + "';", null);
+
+
+        if (c.moveToFirst()) {
+            totalPreg = c.getString(0);
+        }
+
+        c.close();
+
+        return totalPreg;
+    }
+
+    public static String getTotalCat(Context myContext) {
+
+        String totalCat = "";
+
+        PreguntaSQLiteHelper helper =
+                new PreguntaSQLiteHelper(myContext, BD, null, 1);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        Cursor c = db.rawQuery("SELECT count(distinct categoria) FROM '" + Pregunta + "';", null);
+
+
+        if (c.moveToFirst()) {
+            totalCat = c.getString(0);
+        }
+
+        c.close();
+
+        return totalCat;
     }
 
     //guarda en un array todas las preguntas
@@ -165,12 +206,8 @@ public class Repositorio {
         return pregArray;
     }
 
-    /*public void setListaPreguntas(ArrayList<Pregunta> pregArray) {
-        this.pregArray = pregArray;
-    }*/
-
     //guarda en un array todas las categorias
-    public static ArrayList<String>getCategorias(){
+    public static ArrayList<String> getCategorias() {
 
         return categorias;
 

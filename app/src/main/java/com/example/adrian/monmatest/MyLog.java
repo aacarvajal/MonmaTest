@@ -3,7 +3,7 @@ package com.example.adrian.monmatest;
 public class MyLog {
 
     // Cambiar a 'false' para deshabilitar el Log de la aplicación
-    static final boolean DEBUG = false;
+    static final boolean DEBUG = true;
 
     public static void i(String tag, String string) {
         if (DEBUG) android.util.Log.i(tag, string);

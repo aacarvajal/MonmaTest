@@ -28,5 +28,7 @@
     <string name="introduzca_una_respuesta">Introduzca una respuesta</string>
     <string name="guardar">Guardar</string>
     <string name="todo">TODO</string>
+    <string name="write_permission_accepted">escritura aceptada</string>
+    <string name="write_permission_not_accepted">escritura denegada</string>
 
 </resources>
