@@ -35,10 +35,7 @@ public class ResumenActivity extends AppCompatActivity {
         permisosComprobacion();
         myContext = this;
 
-        numP = findViewById(R.id.numPreg);
-        numCat = findViewById(R.id.numCat);
-        numP.setText("Preguntas disponibles: " + Repositorio.getTotalPreg(myContext));
-        numCat.setText("Categorias disponibles: " + Repositorio.getTotalCat(myContext));
+
 
     }
 
@@ -113,6 +110,12 @@ public class ResumenActivity extends AppCompatActivity {
     protected void onResume() {
         MyLog.d(TAG, "Iniciando onResume...");//es como un print para mostrar mensajes y depurar
         super.onResume();
+
+        numP = findViewById(R.id.numPreg);
+        numCat = findViewById(R.id.numCat);
+        numP.setText("Preguntas disponibles: " + Repositorio.getTotalPreg(myContext));
+        numCat.setText("Categorias disponibles: " + Repositorio.getTotalCat(myContext));
+
         MyLog.d(TAG, "Finalizando onResume...");
     }
 

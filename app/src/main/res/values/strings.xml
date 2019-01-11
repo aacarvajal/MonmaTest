@@ -31,5 +31,9 @@
     <string name="write_permission_accepted">escritura aceptada</string>
     <string name="write_permission_not_accepted">escritura denegada</string>
     <string name="title_activity_pregunta_resuelta">PreguntaResuelta</string>
+    <string name="from_camera">camara</string>
+    <string name="from_gallery">galeria</string>
+    <string name="choose_picture">Elige una imagen</string>
+    <string name="error_files">Error creando archivos</string>
 
 </resources>

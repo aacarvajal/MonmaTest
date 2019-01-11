@@ -9,18 +9,29 @@
     tools:context=".CreaPreg"
     tools:showIn="@layout/activity_crea_preg">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="7dp"
+        android:src="@mipmap/ic_launcher" />
+
     <EditText
         android:id="@+id/preg1"
-        android:layout_width="363dp"
+        android:layout_width="235dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="15dp"
         android:layout_marginTop="85dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/introduzca_una_pregunta"
-        android:inputType="textPersonName"
-        android:autofillHints="" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/rsp1"
@@ -76,8 +87,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="147dp"
-        android:layout_marginBottom="454dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="459dp"
         android:text="@string/guardar" />
 
     <Spinner
@@ -131,5 +142,36 @@
         android:layout_marginTop="156dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/ic_add_black_24dp" />
+
+    <Button
+        android:id="@+id/buttonGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="33dp"
+        android:text="@string/from_gallery" />
+
+    <Button
+        android:id="@+id/buttonCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="243dp"
+        android:layout_marginBottom="33dp"
+        android:text="@string/from_camera" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/preg1"
+        android:layout_alignEnd="@+id/anadirCat"
+        android:layout_gravity="center"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="-3dp"
+        android:text="@string/choose_picture" />
 
 </RelativeLayout>
