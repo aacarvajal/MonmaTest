@@ -1,5 +1,6 @@
 package com.example.adrian.monmatest;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import java.util.List;
 public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHolder> {
 
     private static Context myContext;
+    private View view;
+    private ClipData.Item currentItem;
 
 
     //se crean las variables necesarias que se mostraran en el cardview

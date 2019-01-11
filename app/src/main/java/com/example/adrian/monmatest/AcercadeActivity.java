@@ -38,6 +38,13 @@ public class AcercadeActivity extends AppCompatActivity {
 
     }
 
+    public boolean onSupportNavigateUp() {
+
+        onBackPressed();
+        return false;
+
+    }
+
     @Override
     protected void onStart() {
         MyLog.d(TAG, "Iniciando onStart...");//es como un print para mostrar mensajes y depurar

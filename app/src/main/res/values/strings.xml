@@ -30,5 +30,6 @@
     <string name="todo">TODO</string>
     <string name="write_permission_accepted">escritura aceptada</string>
     <string name="write_permission_not_accepted">escritura denegada</string>
+    <string name="title_activity_pregunta_resuelta">PreguntaResuelta</string>
 
 </resources>

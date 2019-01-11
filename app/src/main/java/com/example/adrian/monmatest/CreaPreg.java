@@ -66,7 +66,7 @@ public class CreaPreg extends AppCompatActivity {
                 }
             });
         } else {
-            Log.d("Acerca de", "Error al cargar toolbar");
+            Log.d("CreaPreg", "Error al cargar toolbar");
         }
 
 
@@ -176,6 +176,13 @@ public class CreaPreg extends AppCompatActivity {
         });
 
         incluirCategoria();
+
+    }
+
+    public boolean onSupportNavigateUp() {
+
+        onBackPressed();
+        return false;
 
     }
 

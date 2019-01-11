@@ -14,6 +14,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ public class Listado extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listado);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         //crea una flecha que nos permitira retroceder a la actividad anterior
@@ -52,7 +53,7 @@ public class Listado extends AppCompatActivity {
                 }
             });
         } else {
-            Log.d("Acerca de", "Error al cargar toolbar");
+            Log.d("Listado", "Error al cargar toolbar");
         }
 
 
@@ -74,7 +75,14 @@ public class Listado extends AppCompatActivity {
         finish();
     }
 
-    @Override
+    public boolean onSupportNavigateUp() {
+
+        onBackPressed();
+        return false;
+
+    }
+
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menuActivity; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity, menu);
@@ -104,7 +112,7 @@ public class Listado extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
     @Override
     protected void onStart() {
@@ -163,6 +171,18 @@ public class Listado extends AppCompatActivity {
 
             // Asocia el Adaptador al RecyclerView
             rv.setAdapter(adaptador);
+
+            //accion que permite clicar en el cardview para realizar una pregunta
+            /*rv.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                    Intent i = new Intent(Listado.this,PreguntaResuelta.class);
+                    startActivity(i);
+                    return true;
+
+                }
+            });*/
 
             //con ItemTouchHelper conseguimos el efecto de swipe, con el que se podra desplazar el cardview
             //a derecha e izquierda

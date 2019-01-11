@@ -32,7 +32,12 @@
         <activity
             android:name=".Listado"
             android:label="@string/title_activity_listado"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PreguntaResuelta"
+            android:label="@string/title_activity_pregunta_resuelta"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>
