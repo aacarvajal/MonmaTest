@@ -18,5 +18,6 @@ public class Constantes {
 
     //Permisos
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
+    public static final int MY_PERMISSIONS_REQUEST_CAMERA = 23 ;
     public static final int CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 123;
 }

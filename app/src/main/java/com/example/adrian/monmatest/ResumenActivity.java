@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -16,13 +17,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.Manifest.permission_group.CAMERA;
 import static com.example.adrian.monmatest.Constantes.CODE_WRITE_EXTERNAL_STORAGE_PERMISSION;
+import static com.example.adrian.monmatest.Constantes.MY_PERMISSIONS_REQUEST_CAMERA;
 import static com.example.adrian.monmatest.Constantes.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
 
 public class ResumenActivity extends AppCompatActivity {
 
     private static final String TAG = "ResumenInicio";
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
     private Context myContext;
     private Intent intent;
     private TextView numP, numCat;
@@ -32,9 +38,9 @@ public class ResumenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumen);
 
-        permisosComprobacion();
+        permisosAlmacenamiento();
+        permisosCamara();
         myContext = this;
-
 
 
     }
@@ -127,28 +133,48 @@ public class ResumenActivity extends AppCompatActivity {
     }
 
     //metodo que comprobara la peticion de permisos de escritura en el dispositivo
-    private void permisosComprobacion() {
+    private void permisosAlmacenamiento() {
 
         /* Se mostrara una ventana emergente que pedira la confirmacion
          * para la escritura en el dispositivo
          */
 
         if (ContextCompat.checkSelfPermission(ResumenActivity.this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(ResumenActivity.this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    WRITE_EXTERNAL_STORAGE)) {
 
             } else {
 
                 ActivityCompat.requestPermissions(ResumenActivity.this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        new String[]{WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
 
             }
         }
 
+
+    }
+
+    private void permisosCamara(){
+
+        if (ContextCompat.checkSelfPermission(ResumenActivity.this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(ResumenActivity.this,
+                    Manifest.permission.CAMERA)) {
+
+            } else {
+
+                ActivityCompat.requestPermissions(ResumenActivity.this,
+                        new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_CAMERA);
+
+            }
+        }
 
     }
 
@@ -158,14 +184,29 @@ public class ResumenActivity extends AppCompatActivity {
             case CODE_WRITE_EXTERNAL_STORAGE_PERMISSION:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                    Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_granted), Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    MyLog.e("Permisos: ","Rechazados");
+                    Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_denied), Toast.LENGTH_SHORT).show();
+
+                    MyLog.e("Permisos: ", "Rechazados");
 
                 }
 
                 break;
+
+            case CAMERA_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_granted), Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_denied), Toast.LENGTH_SHORT).show();
+
+                }
+
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
