@@ -4,24 +4,20 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.Manifest.permission_group.CAMERA;
 import static com.example.adrian.monmatest.Constantes.CODE_WRITE_EXTERNAL_STORAGE_PERMISSION;
+import static com.example.adrian.monmatest.Constantes.permissions;
+
 import static com.example.adrian.monmatest.Constantes.MY_PERMISSIONS_REQUEST_CAMERA;
 import static com.example.adrian.monmatest.Constantes.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
 
@@ -29,17 +25,20 @@ public class ResumenActivity extends AppCompatActivity {
 
     private static final String TAG = "ResumenInicio";
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
+    private static final int MULTIPLE_PERMISSIONS_REQUEST_CODE = 3;
     private Context myContext;
     private Intent intent;
     private TextView numP, numCat;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resumen);
 
-        permisosAlmacenamiento();
-        permisosCamara();
+        todosPermisos();
+        //permisosCamara();
         myContext = this;
 
 
@@ -133,13 +132,13 @@ public class ResumenActivity extends AppCompatActivity {
     }
 
     //metodo que comprobara la peticion de permisos de escritura en el dispositivo
-    private void permisosAlmacenamiento() {
+    private void todosPermisos() {
 
         /* Se mostrara una ventana emergente que pedira la confirmacion
          * para la escritura en el dispositivo
          */
 
-        if (ContextCompat.checkSelfPermission(ResumenActivity.this,
+        /*if (ContextCompat.checkSelfPermission(ResumenActivity.this,
                 WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -155,11 +154,6 @@ public class ResumenActivity extends AppCompatActivity {
             }
         }
 
-
-    }
-
-    private void permisosCamara(){
-
         if (ContextCompat.checkSelfPermission(ResumenActivity.this,
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -174,7 +168,18 @@ public class ResumenActivity extends AppCompatActivity {
                         MY_PERMISSIONS_REQUEST_CAMERA);
 
             }
+        }*/
+
+        //Verifica si los permisos establecidos se encuentran concedidos
+        if (ActivityCompat.checkSelfPermission(ResumenActivity.this, permissions[0]) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(ResumenActivity.this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
+            //Si alguno de los permisos no esta concedido lo solicita
+            ActivityCompat.requestPermissions(ResumenActivity.this, permissions, MULTIPLE_PERMISSIONS_REQUEST_CODE);
+        } else {
+            //Si todos los permisos estan concedidos prosigue con el flujo normal
+            permissionGranted();
         }
+
 
     }
 
@@ -206,10 +211,44 @@ public class ResumenActivity extends AppCompatActivity {
                     Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_denied), Toast.LENGTH_SHORT).show();
 
                 }
+            case MULTIPLE_PERMISSIONS_REQUEST_CODE:
+                //Verifica si todos los permisos se aceptaron o no
+                if (validatePermissions(grantResults)) {
+                    //Si todos los permisos fueron aceptados continua con el flujo normal
+                    permissionGranted();
+                } else {
+                    //Si algun permiso fue rechazado no se puede continuar
+                    permissionRejected();
+                }
+                break;
 
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private boolean validatePermissions(int[] grantResults) {
+        boolean allGranted = false;
+        //Revisa cada uno de los permisos y si estos fueron aceptados o no
+        for (int i = 0; i < permissions.length; i++) {
+            if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                //Si todos los permisos fueron aceptados retorna true
+                allGranted = true;
+            } else {
+                //Si algun permiso no fue aceptado retorna false
+                allGranted = false;
+                break;
+            }
+        }
+        return allGranted;
+    }
+
+    private void permissionGranted() {
+        Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_granted), Toast.LENGTH_SHORT).show();
+    }
+
+    private void permissionRejected() {
+        Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_not_accepted), Toast.LENGTH_SHORT).show();
     }
 
 }

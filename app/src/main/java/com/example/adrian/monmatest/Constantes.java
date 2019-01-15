@@ -1,5 +1,7 @@
 package com.example.adrian.monmatest;
 
+import android.Manifest;
+
 public class Constantes {
 
     public static final String USER = "root";
@@ -20,4 +22,5 @@ public class Constantes {
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
     public static final int MY_PERMISSIONS_REQUEST_CAMERA = 23 ;
     public static final int CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 123;
+    public static final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 }
