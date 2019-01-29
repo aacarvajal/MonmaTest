@@ -9,12 +9,14 @@ public class Pregunta {
     private String rsp3;
     private String rsp4;
     private String categoria;
+    private String foto;
 
     public Pregunta() {
 
     }
 
-    public Pregunta(int id, String enunciado, String rsp1, String rsp2, String rsp3, String rsp4, String categoria) {
+    //este contructor sirve para hacer un select a la BD
+    public Pregunta(int id, String enunciado, String rsp1, String rsp2, String rsp3, String rsp4, String categoria, String foto) {
         this.id = id;
         this.enunciado = enunciado;
         this.rsp1 = rsp1;
@@ -22,8 +24,10 @@ public class Pregunta {
         this.rsp3 = rsp3;
         this.rsp4 = rsp4;
         this.categoria = categoria;
+        this.foto = foto;
     }
 
+    //este constructor insertara una pregunta pero sin foto en la BD
     public Pregunta(String enunciado, String rsp1, String rsp2, String rsp3, String rsp4, String categoria) {
         this.enunciado = enunciado;
         this.rsp1 = rsp1;
@@ -31,6 +35,25 @@ public class Pregunta {
         this.rsp3 = rsp3;
         this.rsp4 = rsp4;
         this.categoria = categoria;
+    }
+
+    //este constructor insertara una pregunta junto con una foto en la BD
+    public Pregunta(String enunciado, String rsp1, String rsp2, String rsp3, String rsp4, String categoria, String foto) {
+        this.enunciado = enunciado;
+        this.rsp1 = rsp1;
+        this.rsp2 = rsp2;
+        this.rsp3 = rsp3;
+        this.rsp4 = rsp4;
+        this.categoria = categoria;
+        this.foto = foto;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 
     public int getId() {

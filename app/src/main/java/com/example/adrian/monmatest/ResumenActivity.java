@@ -177,7 +177,7 @@ public class ResumenActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(ResumenActivity.this, permissions, MULTIPLE_PERMISSIONS_REQUEST_CODE);
         } else {
             //Si todos los permisos estan concedidos prosigue con el flujo normal
-            permissionGranted();
+            //permissionGranted();
         }
 
 

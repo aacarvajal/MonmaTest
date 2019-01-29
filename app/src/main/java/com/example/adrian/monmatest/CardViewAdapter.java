@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView enunciado, categoria;
+        private ImageView foto;
 
         //constructor de la clase
         public ViewHolder(View v) {
@@ -34,6 +36,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
             super(v);
             enunciado = (TextView) v.findViewById(R.id.enunciado);
             categoria = (TextView) v.findViewById(R.id.categoria);
+            foto = (ImageView) v.findViewById(R.id.foto);
 
         }
 

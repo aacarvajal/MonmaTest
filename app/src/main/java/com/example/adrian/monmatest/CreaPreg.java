@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -37,27 +40,30 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static com.example.adrian.monmatest.Constantes.CODE_WRITE_EXTERNAL_STORAGE_PERMISSION;
 import static com.example.adrian.monmatest.Constantes.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
+import static com.example.adrian.monmatest.Constantes.REQUEST_CAPTURE_IMAGE;
+import static com.example.adrian.monmatest.Constantes.REQUEST_SELECT_IMAGE;
 
 public class CreaPreg extends AppCompatActivity {
 
-
+    private ImageView foto;
     private EditText edt1, edt2, edt3, edt4, edt5;
     private Button btn, btnCat;
     private static final String TAG = "CreaPreg";
-    private final int CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 123;
+    //private final int CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 123;
     private Context myContext;
     private RelativeLayout relativeCreaPreg;
     private int codigo;
+    private boolean editar = false;
     private Repositorio r = Repositorio.getInstance();
     private ArrayAdapter<String> adapter;
     private ArrayList<String> items;
     private static Spinner spinner;
     //seccion fotos
-    private static final int REQUEST_CAPTURE_IMAGE = 200;
-    private static final int REQUEST_SELECT_IMAGE = 201;
     final String pathFotos = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/demoAndroidImages/";
     private Uri uri;
+    private Bitmap bmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,20 +118,43 @@ public class CreaPreg extends AppCompatActivity {
         btn = (Button) findViewById(R.id.btnguardar);
         btnCat = (Button) findViewById(R.id.anadirCat);
         relativeCreaPreg = findViewById(R.id.recyclerView);
+        foto = findViewById(R.id.foto);
 
-        try {
+        editar = getIntent().getExtras().getBoolean(Constantes.editar);
+        codigo = getIntent().getExtras().getInt(Constantes.codPreg);
 
+        if (editar) {
+
+            Pregunta p = new Pregunta();
+
+            p = r.buscPreg(codigo, myContext);
+
+            //se rellenaran los campos al editar la pregunta
             codigo = getIntent().getExtras().getInt("codigo");
-            edt1.setText(getIntent().getExtras().getString("enunciado"));
+
+            /*edt1.setText(getIntent().getExtras().getString("enunciado"));
             edt2.setText(getIntent().getExtras().getString("rsp1"));
             edt3.setText(getIntent().getExtras().getString("rsp2"));
             edt4.setText(getIntent().getExtras().getString("rsp3"));
             edt5.setText(getIntent().getExtras().getString("rsp4"));
+            spinner.setSelection(items.indexOf(getIntent().getExtras().getString("categoria")));*/
+
+            edt1.setText(p.getEnunciado());
+            edt2.setText(p.getRsp1());
+            edt3.setText(p.getRsp2());
+            edt4.setText(p.getRsp3());
+            edt5.setText(p.getRsp4());
             spinner.setSelection(items.indexOf(getIntent().getExtras().getString("categoria")));
 
-        } catch (NullPointerException e) {
-            codigo = -1;
+            //Pregunta p = new Pregunta();
+
+            byte[] stringDecod = Base64.decode(p.getFoto(), Base64.DEFAULT);
+            Bitmap byteDecod = BitmapFactory.decodeByteArray(stringDecod, 0, stringDecod.length);
+            foto.setImageBitmap(byteDecod);
+
+
         }
+
 
         //este boton se encarga de guardar una nueva pregunta
         btn.setOnClickListener(new View.OnClickListener() {
@@ -169,25 +198,53 @@ public class CreaPreg extends AppCompatActivity {
 
                     //INCLUSION DE PERMISOS
 
-                    permisosComprobacion();
+                    //permisosComprobacion();
+
+                    ImageView imageView = findViewById(R.id.foto);
+
+                    BitmapDrawable bmDr = (BitmapDrawable) imageView.getDrawable();
+
+                    if (bmDr != null) {
+
+                        bmap = bmDr.getBitmap();
+
+                    } else {
+
+                        bmap = null;
+
+                    }
+
+                    Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(),
+                            edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(),
+                            spinner.getSelectedItem().toString(), conver64(bmap));
 
                     //aqui controlamos la funcion de guardado y edicion
                     //si codigo es igual a -1 quiere decir que no tiene ningun campo relleno y que sera una nueva pregunta
                     //pero si el codigo tiene cualquier otro numero quiere decir que sera una pregunta ya rellena que se editara
-                    if (codigo == -1) {
+                    if (/*codigo == -1*/ editar == false) {
 
-                        Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(), spinner.getSelectedItem().toString());
-                        r.insertar(p, myContext);
-                        finish();
+
+
+                        /*Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(),
+                                edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(),
+                                spinner.getSelectedItem().toString(), conver64(bmap));*/
+
+                        r.insertarFoto(p, myContext);
+                        //finish();
 
                     } else {
 
-                        Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(), edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(), spinner.getSelectedItem().toString());
+                        /*Pregunta p = new Pregunta(edt1.getText().toString(), edt2.getText().toString(),
+                                edt3.getText().toString(), edt4.getText().toString(), edt5.getText().toString(),
+                                spinner.getSelectedItem().toString(), conver64(bmap));*/
                         p.setId(codigo);
                         r.Actualizar(p, myContext);
-                        finish();
+                        uri = null;
+                        //finish();
 
                     }
+
+                    finish();
 
                 }
 
@@ -199,13 +256,13 @@ public class CreaPreg extends AppCompatActivity {
         //seccion fotos
 
         Button buttonCamera = findViewById(R.id.buttonCamera);
-        if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+        if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             buttonCamera.setEnabled(false);
         } else {
             buttonCamera.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+                    if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
                         takePicture();
                     }
                 }
@@ -416,7 +473,7 @@ public class CreaPreg extends AppCompatActivity {
             case (REQUEST_CAPTURE_IMAGE):
                 if (resultCode == Activity.RESULT_OK) {
                     // Se carga la imagen desde un objeto URI al imageView
-                    ImageView imageView = findViewById(R.id.imageView);
+                    ImageView imageView = findViewById(R.id.foto);
                     imageView.setImageURI(uri);
 
                     // Se le envía un broadcast a la Galería para que se actualice
@@ -449,7 +506,7 @@ public class CreaPreg extends AppCompatActivity {
                         Bitmap bmp = BitmapFactory.decodeStream(imageStream);
 
                         // Se carga el Bitmap en el ImageView
-                        ImageView imageView = findViewById(R.id.imageView);
+                        ImageView imageView = findViewById(R.id.foto);
                         imageView.setImageBitmap(bmp);
                     }
                 }
@@ -463,6 +520,23 @@ public class CreaPreg extends AppCompatActivity {
         String date = dateFormat.format(new Date());
         // Se devuelve el código
         return "pic_" + date;
+    }
+
+    public static String conver64(Bitmap bmap) {
+
+        String imgCod = "";
+
+        if (bmap != null) {
+            //Bitmap bm = BitmapFactory.decodeFile(bmap.getPath());
+            Bitmap resized = Bitmap.createScaledBitmap(bmap, 500, 500, true);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            resized.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+            byte[] b = baos.toByteArray();
+            imgCod = Base64.encodeToString(b, Base64.DEFAULT);
+            return imgCod;
+        } else {
+            return imgCod;
+        }
     }
 
 }

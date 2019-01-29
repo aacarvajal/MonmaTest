@@ -11,7 +11,7 @@ public class PreguntaSQLiteHelper extends SQLiteOpenHelper {
 
     //Sentencia SQL para crear la tabla de Usuarios
     String sqlCreate = "CREATE TABLE '"+Pregunta+"' (codigo INTEGER PRIMARY KEY AUTOINCREMENT, enunciado TEXT, rsp1 TEXT, rsp2 TEXT, " +
-            "rsp3 TEXT, rsp4 TEXT, categoria TEXT)";
+            "rsp3 TEXT, rsp4 TEXT, categoria TEXT, foto TEXT)";
 
     public PreguntaSQLiteHelper(Context contexto, String pregunta,
                                 CursorFactory factory, int version) {

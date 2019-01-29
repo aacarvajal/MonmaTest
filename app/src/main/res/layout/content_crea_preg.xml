@@ -10,7 +10,7 @@
     tools:showIn="@layout/activity_crea_preg">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/foto"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_alignParentTop="true"
@@ -18,7 +18,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="7dp"
-        android:src="@mipmap/ic_launcher" />
+        android:background="@drawable/app"
+        android:src="@drawable/app" />
 
     <EditText
         android:id="@+id/preg1"
@@ -87,18 +88,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="459dp"
+        android:layout_marginStart="130dp"
+        android:layout_marginBottom="453dp"
         android:text="@string/guardar" />
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="317dp"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="326dp" />
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="330dp" />
 
     <RadioGroup
         android:layout_width="wrap_content"
@@ -139,8 +140,8 @@
         android:layout_height="36dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="156dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginTop="146dp"
+        android:layout_marginEnd="136dp"
         android:background="@drawable/ic_add_black_24dp" />
 
     <Button
@@ -171,7 +172,7 @@
         android:layout_alignEnd="@+id/anadirCat"
         android:layout_gravity="center"
         android:layout_marginTop="-1dp"
-        android:layout_marginEnd="-3dp"
+        android:layout_marginEnd="-122dp"
         android:text="@string/choose_picture" />
 
 </RelativeLayout>

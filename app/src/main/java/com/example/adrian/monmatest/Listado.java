@@ -31,6 +31,7 @@ public class Listado extends AppCompatActivity {
     private Repositorio r;
     private RecyclerView rv;
     private CardViewAdapter rva;
+    private boolean editar = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class Listado extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(Listado.this, CreaPreg.class);
+                in.putExtra("editar", false );
                 startActivity(in);
             }
         });
@@ -252,20 +254,26 @@ public class Listado extends AppCompatActivity {
                                 String rsp3 = preguntas.get(position).getRsp3();
                                 String rsp4 = preguntas.get(position).getRsp4();
                                 String categoria = preguntas.get(position).getCategoria();
+                                String foto = preguntas.get(position).getFoto();
 
-                                Pregunta p = new Pregunta(codigo, enunciado, rsp1, rsp2, rsp3, rsp4, categoria);
+                                Pregunta p = new Pregunta(codigo, enunciado, rsp1, rsp2, rsp3, rsp4, categoria,foto);
 
                                 r.Actualizar(p, myContext);
 
                                 Intent it = new Intent(Listado.this, CreaPreg.class);
                                 //se pasan todos los datos a sus campos correspondientes
-                                it.putExtra("codigo", preguntas.get(position).getId());
-                                it.putExtra("enunciado", preguntas.get(position).getEnunciado());
+                                //it.putExtra("codigo", preguntas.get(position).getId());
+                                it.putExtra(Constantes.codPreg, preguntas.get(position).getId());
+                                /*it.putExtra("enunciado", preguntas.get(position).getEnunciado());
                                 it.putExtra("rsp1", preguntas.get(position).getRsp1());
                                 it.putExtra("rsp2", preguntas.get(position).getRsp2());
                                 it.putExtra("rsp3", preguntas.get(position).getRsp3());
                                 it.putExtra("rsp4", preguntas.get(position).getRsp4());
                                 it.putExtra("categoria", preguntas.get(position).getCategoria());
+                                it.putExtra("foto", preguntas.get(position).getFoto());*/
+
+                                it.putExtra(Constantes.editar, true);
+
                                 //iniciara la actividad con todos los datos introducidos
                                 startActivity(it);
 

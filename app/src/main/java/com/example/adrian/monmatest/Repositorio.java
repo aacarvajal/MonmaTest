@@ -22,9 +22,9 @@ public class Repositorio {
     }
 
     //inserta en la base de datos todas las preguntas
-    public static void insertar(Pregunta p, Context myContext) {
+    public static boolean insertar(Pregunta p, Context myContext) {
 
-        boolean valor = false;
+        boolean bool = true;
         //si es true que lo meta en la BBDD
 
         //Abrimos la base de datos 'DBUsuarios' en modo escritura
@@ -47,10 +47,45 @@ public class Repositorio {
             db.close();
         } else {
 
-            valor = false;
+            bool = false;
 
         }
 
+        return bool;
+
+    }
+
+    //inserta en la base de datos todas las preguntas incluyendo una foto
+    public static boolean insertarFoto(Pregunta p, Context myContext) {
+
+        boolean bool = true;
+        //si es true que lo meta en la BBDD
+
+        //Abrimos la base de datos 'DBUsuarios' en modo escritura
+        PreguntaSQLiteHelper helper =
+                new PreguntaSQLiteHelper(myContext, BD, null, 1);
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        //Si hemos abierto correctamente la base de datos
+        if (db != null) {
+            //Insertamos los getter de las variables
+
+            //Insertar un registro
+            db.execSQL("INSERT INTO Pregunta (enunciado, rsp1, rsp2, rsp3, rsp4, categoria, foto)" +
+                    "VALUES ('" + p.getEnunciado() + "','" + p.getRsp1() + "'," + " '" + p.getRsp2() + "'," +
+                    " '" + p.getRsp3() + "', '" + p.getRsp4() + "','" + p.getCategoria() + "','" + p.getFoto() + "')");
+
+
+            //Cerramos la base de datos
+            db.close();
+        } else {
+
+            bool = false;
+
+        }
+
+        return bool;
 
     }
 
@@ -71,10 +106,14 @@ public class Repositorio {
                     + "', rsp3 = " + "'" + p.getRsp3()
                     + "', rsp4 = " + "'" + p.getRsp4()
                     + "', categoria = " + "'" + p.getCategoria()
+                    + "', foto = " + "'" + p.getFoto()
                     + "' WHERE codigo = " + p.getId());
+
+            db.close();
+
         }
 
-        db.close();
+        //db.close();
 
 
     }
@@ -118,7 +157,8 @@ public class Repositorio {
                 String rsp3 = c.getString(c.getColumnIndex("rsp3"));
                 String rsp4 = c.getString(c.getColumnIndex("rsp4"));
                 String categoria = c.getString(c.getColumnIndex("categoria"));
-                Pregunta p = new Pregunta(codigo, enunciado, rsp1, rsp2, rsp3, rsp4, categoria);
+                String foto = c.getString(c.getColumnIndex("foto"));
+                Pregunta p = new Pregunta(codigo, enunciado, rsp1, rsp2, rsp3, rsp4, categoria, foto);
                 pregArray.add(p);
 
             } while (c.moveToNext());
@@ -126,6 +166,38 @@ public class Repositorio {
         }
 
         return pregArray;
+
+    }
+
+    public static Pregunta buscPreg(int id, Context myContext) {
+
+        Pregunta p = new Pregunta();
+
+        PreguntaSQLiteHelper helper =
+                new PreguntaSQLiteHelper(myContext, BD, null, 1);
+
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM Pregunta WHERE codigo='" + id + "'", null);
+
+        if (c.moveToFirst()) {
+
+
+            String enunciado = c.getString(1);
+            String rsp1 = c.getString(2);
+            String rsp2 = c.getString(3);
+            String rsp3 = c.getString(4);
+            String rsp4 = c.getString(5);
+            String categoria = c.getString(6);
+            String foto = c.getString(7);
+            p = new Pregunta(enunciado, rsp1, rsp2, rsp3, rsp4, categoria, foto);
+
+        }
+
+        c.close();
+        db.close();
+
+        return p;
 
     }
 
@@ -197,6 +269,8 @@ public class Repositorio {
         }
 
         c.close();
+
+        db.close();
 
         return totalCat;
     }
