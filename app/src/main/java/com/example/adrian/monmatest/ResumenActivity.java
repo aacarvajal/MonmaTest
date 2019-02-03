@@ -138,38 +138,6 @@ public class ResumenActivity extends AppCompatActivity {
          * para la escritura en el dispositivo
          */
 
-        /*if (ContextCompat.checkSelfPermission(ResumenActivity.this,
-                WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(ResumenActivity.this,
-                    WRITE_EXTERNAL_STORAGE)) {
-
-            } else {
-
-                ActivityCompat.requestPermissions(ResumenActivity.this,
-                        new String[]{WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-
-            }
-        }
-
-        if (ContextCompat.checkSelfPermission(ResumenActivity.this,
-                Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(ResumenActivity.this,
-                    Manifest.permission.CAMERA)) {
-
-            } else {
-
-                ActivityCompat.requestPermissions(ResumenActivity.this,
-                        new String[]{Manifest.permission.CAMERA},
-                        MY_PERMISSIONS_REQUEST_CAMERA);
-
-            }
-        }*/
-
         //Verifica si los permisos establecidos se encuentran concedidos
         if (ActivityCompat.checkSelfPermission(ResumenActivity.this, permissions[0]) != PackageManager.PERMISSION_GRANTED ||
                 ActivityCompat.checkSelfPermission(ResumenActivity.this, permissions[1]) != PackageManager.PERMISSION_GRANTED) {
