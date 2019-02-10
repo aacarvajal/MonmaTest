@@ -35,5 +35,6 @@
     <string name="from_gallery">galeria</string>
     <string name="choose_picture">Elige una imagen</string>
     <string name="error_files">Error creando archivos</string>
+    <string name="action_exportar">Exportar</string>
 
 </resources>

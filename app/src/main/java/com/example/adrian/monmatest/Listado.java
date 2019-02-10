@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -19,6 +20,10 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import org.xmlpull.v1.XmlSerializer;
+
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Collections;
 import java.util.List;
 
@@ -64,7 +69,7 @@ public class Listado extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(Listado.this, CreaPreg.class);
-                in.putExtra("editar", false );
+                in.putExtra("editar", false);
                 startActivity(in);
             }
         });
@@ -83,38 +88,6 @@ public class Listado extends AppCompatActivity {
         return false;
 
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menuActivity; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_nuevo:
-                Log.i("ActionBar", "Nuevo!");
-                intent = new Intent(Listado.this, CreaPreg.class);
-                return true;
-            case R.id.action_buscar:
-                Log.i("ActionBar", "Buscar!");
-                return true;
-            case R.id.action_acercade:
-                Log.i("ActionBar", "Acercade!");
-                intent = new Intent(Listado.this, AcercadeActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_listado:
-                Log.i("ActionBar", "Inicio!");
-                intent = new Intent(Listado.this, ResumenActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
 
     @Override
     protected void onStart() {
@@ -173,18 +146,6 @@ public class Listado extends AppCompatActivity {
 
             // Asocia el Adaptador al RecyclerView
             rv.setAdapter(adaptador);
-
-            //accion que permite clicar en el cardview para realizar una pregunta
-            /*rv.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                    Intent i = new Intent(Listado.this,PreguntaResuelta.class);
-                    startActivity(i);
-                    return true;
-
-                }
-            });*/
 
             //con ItemTouchHelper conseguimos el efecto de swipe, con el que se podra desplazar el cardview
             //a derecha e izquierda
@@ -256,22 +217,12 @@ public class Listado extends AppCompatActivity {
                                 String categoria = preguntas.get(position).getCategoria();
                                 String foto = preguntas.get(position).getFoto();
 
-                                Pregunta p = new Pregunta(codigo, enunciado, rsp1, rsp2, rsp3, rsp4, categoria,foto);
+                                Pregunta p = new Pregunta(codigo, enunciado, rsp1, rsp2, rsp3, rsp4, categoria, foto);
 
                                 r.Actualizar(p, myContext);
 
                                 Intent it = new Intent(Listado.this, CreaPreg.class);
-                                //se pasan todos los datos a sus campos correspondientes
-                                //it.putExtra("codigo", preguntas.get(position).getId());
                                 it.putExtra(Constantes.codPreg, preguntas.get(position).getId());
-                                /*it.putExtra("enunciado", preguntas.get(position).getEnunciado());
-                                it.putExtra("rsp1", preguntas.get(position).getRsp1());
-                                it.putExtra("rsp2", preguntas.get(position).getRsp2());
-                                it.putExtra("rsp3", preguntas.get(position).getRsp3());
-                                it.putExtra("rsp4", preguntas.get(position).getRsp4());
-                                it.putExtra("categoria", preguntas.get(position).getCategoria());
-                                it.putExtra("foto", preguntas.get(position).getFoto());*/
-
                                 it.putExtra(Constantes.editar, true);
 
                                 //iniciara la actividad con todos los datos introducidos
@@ -326,6 +277,35 @@ public class Listado extends AppCompatActivity {
         preguntas = r.Consultar(this);
         return preguntas;
 
+    }
+
+    public static String CreateXMLString() throws IllegalArgumentException, IllegalStateException, IOException {
+        XmlSerializer xmlSerializer = Xml.newSerializer();
+        StringWriter writer = new StringWriter();
+
+        xmlSerializer.setOutput(writer);
+
+        //Start Document
+        xmlSerializer.startDocument("UTF-8", true);
+        xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+        //Open Tag <file>
+        xmlSerializer.startTag("", "file");
+
+        xmlSerializer.startTag("", "something");
+        xmlSerializer.attribute("", "ID", "000001");
+
+        xmlSerializer.startTag("", "name");
+        xmlSerializer.text("CO");
+        xmlSerializer.endTag("", "name");
+
+        xmlSerializer.endTag("", "something");
+
+
+        //end tag <file>
+        xmlSerializer.endTag("", "file");
+        xmlSerializer.endDocument();
+
+        return writer.toString();
     }
 
 }

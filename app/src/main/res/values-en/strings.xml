@@ -31,4 +31,6 @@
     <string name="from_camera">camara</string>
     <string name="from_gallery">galeria</string>
     <string name="choose_picture">Elige una imagen</string>
+    <string name="error_files">Create error</string>
+    <string name="action_exportar">Export</string>
 </resources>

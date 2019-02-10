@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileWriter;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.Manifest.permission_group.CAMERA;
@@ -29,7 +34,6 @@ public class ResumenActivity extends AppCompatActivity {
     private Context myContext;
     private Intent intent;
     private TextView numP, numCat;
-
 
 
     @Override
@@ -60,23 +64,33 @@ public class ResumenActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_nuevo:
+            /*case R.id.action_nuevo:
                 Log.i("ActionBar", "Nuevo!");
                 intent = new Intent(ResumenActivity.this, CreaPreg.class);
                 startActivity(intent);
+                return true;*/
+            case R.id.action_listado:
+                Log.i("ActionBar", "Preguntas!");
+                intent = new Intent(ResumenActivity.this, Listado.class);
+                startActivity(intent);
                 return true;
-            case R.id.action_buscar:
+            /*case R.id.action_buscar:
                 Log.i("ActionBar", "Buscar!");
-                return true;
+                return true;*/
             case R.id.action_acercade:
                 Log.i("ActionBar", "Acercade!");
                 intent = new Intent(ResumenActivity.this, AcercadeActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.action_listado:
-                Log.i("ActionBar", "Preguntas!");
-                intent = new Intent(ResumenActivity.this, Listado.class);
+            case R.id.action_settings:
+                Log.i("ActionBar", "Configuracion!");
+                intent = new Intent(ResumenActivity.this, ResumenActivity.class);
                 startActivity(intent);
+                return true;
+            case R.id.action_exportar:
+                Repositorio.cogerDatos(myContext);
+                exportarXML();
+                Log.i("ActionBar", "Exportar!");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -217,6 +231,36 @@ public class ResumenActivity extends AppCompatActivity {
 
     private void permissionRejected() {
         Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_not_accepted), Toast.LENGTH_SHORT).show();
+    }
+
+    private void exportarXML() {
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/preguntasExportar");
+        String fname = "preguntas.xml";
+        File file = new File(myDir, fname);
+        try {
+            if (!myDir.exists()) {
+                myDir.mkdirs();
+            }
+            if (file.exists())
+                file.delete();
+            FileWriter fw = new FileWriter(file);
+            //Escribimos en el fichero un String
+            fw.write(Repositorio.CreateXMLString());
+            //Cierro el stream
+            fw.close();
+        } catch (Exception ex) {
+            MyLog.e("Ficheros", "Error al escribir fichero a memoria interna");
+        }
+        String cadena = myDir.getAbsolutePath() + "/" + fname;
+        Uri path = Uri.parse("file://" + cadena);
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "ii.sho.hai@gmail.com", null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Preguntas para plataforma Moodle");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Adjunto las preguntas");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, path);
+        startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 
 }

@@ -3,9 +3,14 @@ package com.example.adrian.monmatest;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Xml;
+
+import org.xmlpull.v1.XmlSerializer;
 
 import static com.example.adrian.monmatest.Constantes.*;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 
 public class Repositorio {
@@ -276,7 +281,7 @@ public class Repositorio {
     }
 
     //guarda en un array todas las preguntas
-    public ArrayList<Pregunta> getListaPreguntas() {
+    public static ArrayList<Pregunta> getListaPreguntas() {
         return pregArray;
     }
 
@@ -284,6 +289,108 @@ public class Repositorio {
     public static ArrayList<String> getCategorias() {
 
         return categorias;
+
+    }
+
+    //este metodo se encarga de recoger todos los datos de las preguntas
+    public static void cogerDatos(Context myContext) {
+        pregArray = new ArrayList<>();
+        PreguntaSQLiteHelper psdbh = new PreguntaSQLiteHelper(myContext, Constantes.BD, null, 1);
+
+        SQLiteDatabase db = psdbh.getWritableDatabase();
+        String[] cat = new String[]{"categoria", "Pregunta"};
+
+        Cursor c = db.rawQuery("SELECT * FROM " + Constantes.Pregunta, null);
+
+//Nos aseguramos de que existe al menos un registro
+        if (c.moveToFirst()) {
+            //Recorremos el cursor hasta que no haya más registros
+            do {
+                int codigo = c.getInt(c.getColumnIndex("codigo"));
+                String enunciado = c.getString(c.getColumnIndex("enunciado"));
+                String spinner = c.getString(c.getColumnIndex("categoria"));
+                String rsp1 = c.getString(c.getColumnIndex("rsp1"));
+                String rsp2 = c.getString(c.getColumnIndex("rsp2"));
+                String rsp3 = c.getString(c.getColumnIndex("rsp3"));
+                String rsp4 = c.getString(c.getColumnIndex("rsp4"));
+                String foto = c.getString(c.getColumnIndex("foto"));
+
+                Pregunta p = new Pregunta(codigo, enunciado, spinner, rsp1, rsp2, rsp3, rsp4, foto);
+                pregArray.add(p);
+            } while (c.moveToNext());
+        }
+
+    }
+
+    public static String CreateXMLString() throws IllegalArgumentException, IllegalStateException, IOException {
+        ArrayList<Pregunta> preguntasXML = new ArrayList<Pregunta>();
+        preguntasXML = getListaPreguntas();
+
+
+        XmlSerializer xmlSerializer = Xml.newSerializer();
+        StringWriter writer = new StringWriter();
+
+        xmlSerializer.setOutput(writer);
+
+        //Start Document
+        xmlSerializer.startDocument("UTF-8", true);
+        xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
+
+        //Open Tag <file>
+        xmlSerializer.startTag("", "quiz");
+
+        for (Pregunta p : preguntasXML) {
+            //Categoria
+            xmlSerializer.startTag("", "question");
+            xmlSerializer.attribute("", "type", p.getCategoria());
+            xmlSerializer.startTag("", "category");
+            xmlSerializer.text(p.getCategoria());
+            xmlSerializer.endTag("", "category");
+            xmlSerializer.endTag("", "question");
+            //Pregunta
+            xmlSerializer.startTag("", "question");
+            xmlSerializer.attribute("", "type", "multichoice");
+            xmlSerializer.startTag("", "name");
+            xmlSerializer.text(p.getEnunciado());
+            xmlSerializer.endTag("", "name");
+            xmlSerializer.startTag("", "questiontext");
+            xmlSerializer.attribute("", "format", "html");
+            xmlSerializer.text(p.getEnunciado());
+            xmlSerializer.startTag("", "file");
+            xmlSerializer.attribute("", "name", p.getFoto());
+            xmlSerializer.attribute("", "path", "/");
+            xmlSerializer.attribute("", "encoding", "base64");
+            xmlSerializer.endTag("", "file");
+            xmlSerializer.endTag("", "questiontext");
+            xmlSerializer.startTag("", "answernumbering");
+            xmlSerializer.endTag("", "answernumbering");
+            xmlSerializer.startTag("", "answer");
+            xmlSerializer.attribute("", "fraction", "100");
+            xmlSerializer.attribute("", "format", "html");
+            xmlSerializer.text(p.getRsp1());
+            xmlSerializer.endTag("", "answer");
+            xmlSerializer.startTag("", "answer");
+            xmlSerializer.attribute("", "fraction", "0");
+            xmlSerializer.attribute("", "format", "html");
+            xmlSerializer.text(p.getRsp2());
+            xmlSerializer.endTag("", "answer");
+            xmlSerializer.startTag("", "answer");
+            xmlSerializer.attribute("", "fraction", "0");
+            xmlSerializer.attribute("", "format", "html");
+            xmlSerializer.text(p.getRsp3());
+            xmlSerializer.endTag("", "answer");
+            xmlSerializer.startTag("", "answer");
+            xmlSerializer.attribute("", "fraction", "0");
+            xmlSerializer.attribute("", "format", "html");
+            xmlSerializer.text(p.getRsp4());
+            xmlSerializer.endTag("", "answer");
+            xmlSerializer.endTag("", "question");
+        }
+
+        xmlSerializer.endTag("", "quiz");
+        xmlSerializer.endDocument();
+        return writer.toString();
+
 
     }
 

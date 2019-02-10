@@ -18,8 +18,8 @@
         android:layout_gravity="center"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="7dp"
-        android:background="@drawable/app"
-        android:src="@drawable/app" />
+        android:src="@drawable/app"
+        app:srcCompat="@mipmap/ic_launcher" />
 
     <EditText
         android:id="@+id/preg1"
