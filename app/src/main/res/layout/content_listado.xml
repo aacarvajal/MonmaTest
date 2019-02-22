@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="80dp"
         android:layout_marginTop="15dp"
-        android:text="Aún no has añadido ninguna pregunta" />
+        android:text="@string/sinpreg" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

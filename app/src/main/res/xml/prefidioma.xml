@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/idioma">
+
+        <ListPreference
+            android:defaultValue="es"
+            android:entries="@array/opc_lista_idiomas_titulos"
+            android:entryValues="@array/opc_lista_idiomas_valores"
+            android:key="opc_idioma"
+            android:summary="@string/opc_resumen_idioma"
+            android:title="@string/opc_titulo_idioma" />
+    </PreferenceCategory>
+</PreferenceScreen>

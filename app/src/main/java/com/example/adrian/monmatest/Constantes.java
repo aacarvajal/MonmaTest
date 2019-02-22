@@ -31,4 +31,8 @@ public class Constantes {
     //fotos
     public static final int REQUEST_CAPTURE_IMAGE = 200;
     public static final int REQUEST_SELECT_IMAGE = 201;
+
+    //configuracion-pref
+    public static final String ID_IDIOMA = "opc_idioma";
+    public static final String IDIOMA_DEFAULT = "es";
 }

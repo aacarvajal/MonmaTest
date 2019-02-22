@@ -37,6 +37,7 @@ public class Listado extends AppCompatActivity {
     private RecyclerView rv;
     private CardViewAdapter rva;
     private boolean editar = false;
+    private TextView sinpreg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +122,9 @@ public class Listado extends AppCompatActivity {
     protected void onResume() {
         MyLog.d(TAG, "Iniciando onResume...");//es como un print para mostrar mensajes y depurar
         super.onResume();
+
+        sinpreg = findViewById(R.id.sinprg);
+        sinpreg.setText(getString(R.string.sinpreg));
 
         //CardView
 

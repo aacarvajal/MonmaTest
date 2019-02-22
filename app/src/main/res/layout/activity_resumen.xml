@@ -32,7 +32,7 @@
         android:layout_marginTop="54dp" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/testhechos"
         android:layout_width="177dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -41,7 +41,7 @@
         android:text="@string/cuestionarios_realizados_10" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/calmedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

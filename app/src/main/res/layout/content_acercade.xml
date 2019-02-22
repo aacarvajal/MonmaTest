@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
         android:layout_marginTop="46dp"
-        android:text="@string/monmatest_es_una_aplicaci_n_que_almacena_tests_para_despu_s_poder_practicar_haci_ndolos"
+        android:text="@string/descripcion"
         android:textSize="18sp" />
 
     <TextView
