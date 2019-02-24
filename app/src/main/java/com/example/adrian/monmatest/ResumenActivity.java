@@ -2,17 +2,26 @@ package com.example.adrian.monmatest;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,9 +50,12 @@ public class ResumenActivity extends AppCompatActivity {
     private static final int MULTIPLE_PERMISSIONS_REQUEST_CODE = 3;
     private Context myContext;
     private Intent intent;
+    private ImageView iv;
+    private Button btn;
     private TextView numP, numCat, testhechos, calmedia;
     private Menu menuItems;
-
+    private RelativeLayout rel;
+    private AlertDialog aldi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +63,18 @@ public class ResumenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_resumen);
 
         todosPermisos();
-        //permisosCamara();
-        myContext = this;
 
+        myContext = this;
+        rel = findViewById(R.id.pantallaInicio);
+        iv = findViewById(R.id.ivanim);
+        btn = findViewById(R.id.anim);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarAlert();
+            }
+        });
 
     }
 
@@ -115,7 +136,7 @@ public class ResumenActivity extends AppCompatActivity {
         super.onStart();
 
         actIdiomaMenu();
-        
+
         MyLog.d(TAG, "Finalizando onStart...");
     }
 
@@ -140,6 +161,11 @@ public class ResumenActivity extends AppCompatActivity {
         MyLog.d(TAG, "Finalizando onPause...");
     }
 
+    /**
+     * En el onResume, nos encargamos de que los textos mostrados en la actividad resumen
+     * se traduzcan haciendo referencia al textview al que estan enlazados y pasandole
+     * la traduccion.
+     */
     @Override
     protected void onResume() {
         MyLog.d(TAG, "Iniciando onResume...");//es como un print para mostrar mensajes y depurar
@@ -154,6 +180,7 @@ public class ResumenActivity extends AppCompatActivity {
         numCat.setText(getString(R.string.categor_as_disponibles_2) + " " + Repositorio.getTotalCat(myContext));
         testhechos.setText(getString(R.string.cuestionarios_realizados_10));
         calmedia.setText(getString(R.string.calificaci_n_media_6_7_10));
+        btn.setText(getString(R.string.anim));
 
         MyLog.d(TAG, "Finalizando onResume...");
     }
@@ -165,12 +192,10 @@ public class ResumenActivity extends AppCompatActivity {
         MyLog.d(TAG, "Finalizando onRestart...");
     }
 
-    //metodo que comprobara la peticion de permisos de escritura en el dispositivo
+    /**
+     * Este metodo que comprobara la peticion de permisos de escritura y camara en el dispositivo
+     */
     private void todosPermisos() {
-
-        /* Se mostrara una ventana emergente que pedira la confirmacion
-         * para la escritura en el dispositivo
-         */
 
         //Verifica si los permisos establecidos se encuentran concedidos
         if (ActivityCompat.checkSelfPermission(ResumenActivity.this, permissions[0]) != PackageManager.PERMISSION_GRANTED ||
@@ -185,6 +210,13 @@ public class ResumenActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     * En este metodo le pasamos un entero que sera el codigo del permiso, tendra un array
+     * que guardara los permisos y otro array que guardara los resultados.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -245,17 +277,29 @@ public class ResumenActivity extends AppCompatActivity {
         return allGranted;
     }
 
+    /**
+     * Este metodo muestra un toast que nos dira que se han aceptado los permisos
+     */
     private void permissionGranted() {
         Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_granted), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Este metodo muestra un toast que nos dira que se han denegado los permisos
+     */
     private void permissionRejected() {
         Toast.makeText(ResumenActivity.this, getString(R.string.write_permission_not_accepted), Toast.LENGTH_SHORT).show();
     }
 
+
+    /**
+     * Este metodo se encarga crear un fichero de formato xml
+     * en el que se guardaran todos los datos que se saquen de la base de datos
+     * por cada pregunta que este almacenada.
+     */
     private void exportarXML() {
         String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/preguntasExportar");
+        File myDir = new File(root + "/preguntasExportadas");
         String fname = "preguntas.xml";
         File file = new File(myDir, fname);
         try {
@@ -270,44 +314,24 @@ public class ResumenActivity extends AppCompatActivity {
             //Cierro el stream
             fw.close();
         } catch (Exception ex) {
-            MyLog.e("Ficheros", "Error al escribir fichero a memoria interna");
+            MyLog.e("Ficheros", "Error al escribir fichero");
         }
         String cadena = myDir.getAbsolutePath() + "/" + fname;
         Uri path = Uri.parse("file://" + cadena);
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", "ii.sho.hai@gmail.com", null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Preguntas para plataforma Moodle");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Preguntas para Moodle");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Adjunto las preguntas");
         emailIntent.putExtra(Intent.EXTRA_STREAM, path);
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
     }
 
-    private void XmlPullParser() throws XmlPullParserException, IOException {
-
-        InputStream inputStream = new FileInputStream(new File("preguntas.xml"));
-
-        String result = "";
-
-        XmlPullParser parser = Xml.newPullParser();
-
-        parser.setInput(inputStream, null);
-
-        parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, true);
-        if (parser.next() == XmlPullParser.TEXT) {
-            result = parser.getText();
-            parser.nextTag();
-        }
-        //return result;
-
-        if (parser.getEventType() != XmlPullParser.START_TAG) {
-            throw new IllegalStateException();
-        }
-
-        parser.require(XmlPullParser.START_TAG, "enunciado", ETIQUETA_ENUNCIADO);
-
-    }
-
+    /**
+     * En este metodo, llamamos a todos los campos de las diferentes opciones
+     * del menu, para asi despues poder aplicarle sus diferentes traducciones
+     * a la hora de cambiar de idioma.
+     */
     private void actIdiomaMenu() {
         //botones del menu
         if (menuItems != null) {
@@ -321,6 +345,48 @@ public class ResumenActivity extends AppCompatActivity {
             itemExportar.setTitle(R.string.action_exportar);
             itemLista.setTitle(R.string.action_listado);
         }
+
+    }
+
+    private void mostrarAlert(){
+
+        AlertDialog.Builder build = new AlertDialog.Builder(this);
+
+        final CharSequence[] animacion = {"Entrar desde abajo", "Salir desde arriba",
+                "Entrar desde derecha", "Salir desde izquierda"};
+
+        build.setTitle("Opcion de animaciones").setItems(animacion, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                //Toast.makeText(ResumenActivity.this, animacion[i].toString(),Toast.LENGTH_SHORT).show();
+
+                if(i == 0){
+
+                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.enter_bottom);
+                    iv.startAnimation(anim);
+
+                }else if(i == 1){
+
+                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.exit_up);
+                    iv.startAnimation(anim);
+
+                }else if(i == 2){
+
+                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.enter_right);
+                    iv.startAnimation(anim);
+
+                }else if(i == 3){
+
+                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.exit_left);
+                    iv.startAnimation(anim);
+
+                }
+
+            }
+        });
+
+        aldi = build.show();
 
     }
 

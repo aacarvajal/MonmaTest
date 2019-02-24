@@ -40,6 +40,7 @@
     <string name="idioma">Idioma</string>
     <string name="opc_titulo_idioma">Seleccione un idioma</string>
     <string name="opc_resumen_idioma">Elige un idioma de entre las opciones</string>
+    <string name="anim">Animacion</string>
 
     <string-array name="opc_lista_idiomas_titulos"/>
     <string-array name="opc_lista_idiomas_valores"/>

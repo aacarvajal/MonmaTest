@@ -37,4 +37,5 @@
     <string name="idioma">Language</string>
     <string name="opc_titulo_idioma">Select a language</string>
     <string name="opc_resumen_idioma">Choose a language</string>
+    <string name="anim">Animation</string>
 </resources>
