@@ -49,7 +49,7 @@ public class CreaPreg extends AppCompatActivity {
 
     private ImageView foto;
     private EditText edt1, edt2, edt3, edt4, edt5;
-    private Button btn, btnCat;
+    private Button btn, btnCat, btnBorrar;
     private static final String TAG = "CreaPreg";
     //private final int CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 123;
     private Context myContext;
@@ -74,6 +74,7 @@ public class CreaPreg extends AppCompatActivity {
         setSupportActionBar(toolbar);
         myContext = this;
 
+        btnBorrar = findViewById(R.id.borrarImagen);
         //establece un titulo en la actividad
         getSupportActionBar().setTitle("Preguntas");//cambiar el titulo de la actividad
 
@@ -94,6 +95,16 @@ public class CreaPreg extends AppCompatActivity {
             Log.d("CreaPreg", "Error al cargar toolbar");
         }
 
+        //se le asigna la foto que debera de aparecer cuando eliminemos la foto
+        //que se eligio de la galeria o la que se hizo nueva con la camara
+        btnBorrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                foto.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher));
+                //foto.setImageResource(0);
+                foto.setRotation(0);
+            }
+        });
 
         items = new ArrayList<String>();
 

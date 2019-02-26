@@ -9,18 +9,6 @@
     tools:context=".CreaPreg"
     tools:showIn="@layout/activity_crea_preg">
 
-    <ImageView
-        android:id="@+id/foto"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="7dp"
-        android:src="@drawable/app"
-        app:srcCompat="@mipmap/ic_launcher" />
-
     <EditText
         android:id="@+id/preg1"
         android:layout_width="235dp"
@@ -150,8 +138,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="56dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="29dp"
         android:text="@string/from_gallery" />
 
     <Button
@@ -160,8 +148,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="243dp"
-        android:layout_marginBottom="33dp"
+        android:layout_marginStart="270dp"
+        android:layout_marginBottom="28dp"
         android:text="@string/from_camera" />
 
     <TextView
@@ -174,5 +162,25 @@
         android:layout_marginTop="-1dp"
         android:layout_marginEnd="-122dp"
         android:text="@string/choose_picture" />
+
+    <Button
+        android:id="@+id/borrarImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btnguardar"
+        android:layout_alignTop="@+id/buttonGallery"
+        android:layout_marginStart="-9dp"
+        android:layout_marginTop="0dp"
+        android:text="Borrar imagen" />
+
+    <ImageView
+        android:id="@+id/foto"
+        android:layout_width="119dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="7dp"
+        app:srcCompat="@drawable/icono" />
 
 </RelativeLayout>

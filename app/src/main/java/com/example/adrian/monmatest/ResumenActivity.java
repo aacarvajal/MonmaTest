@@ -359,8 +359,6 @@ public class ResumenActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                //Toast.makeText(ResumenActivity.this, animacion[i].toString(),Toast.LENGTH_SHORT).show();
-
                 if(i == 0){
 
                     Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.enter_bottom);
