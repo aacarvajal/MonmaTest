@@ -3,10 +3,18 @@ package com.example.adrian.monmatest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import java.util.Locale;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class Funciones {
 

@@ -1,10 +1,12 @@
 package com.example.adrian.monmatest;
 
-import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -12,14 +14,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,32 +27,32 @@ import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static android.Manifest.permission_group.CAMERA;
+import static com.example.adrian.monmatest.Constantes.CAMERA_PERMISSION_REQUEST_CODE;
 import static com.example.adrian.monmatest.Constantes.CODE_WRITE_EXTERNAL_STORAGE_PERMISSION;
+import static com.example.adrian.monmatest.Constantes.MULTIPLE_PERMISSIONS_REQUEST_CODE;
+import static com.example.adrian.monmatest.Constantes.TYPE_MOBILE;
+import static com.example.adrian.monmatest.Constantes.TYPE_WIFI;
+import static com.example.adrian.monmatest.Constantes.TYPE_NOT_CONNECTED;
 import static com.example.adrian.monmatest.Constantes.permissions;
 
-import static com.example.adrian.monmatest.Constantes.MY_PERMISSIONS_REQUEST_CAMERA;
-import static com.example.adrian.monmatest.Constantes.MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE;
-import static com.example.adrian.monmatest.ParserXml.ETIQUETA_ENUNCIADO;
 
 public class ResumenActivity extends AppCompatActivity {
 
     private static final String TAG = "ResumenInicio";
-    private static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
-    private static final int MULTIPLE_PERMISSIONS_REQUEST_CODE = 3;
     private Context myContext;
     private Intent intent;
     private ImageView iv;
     private Button btn;
-    private TextView numP, numCat, testhechos, calmedia;
+    private TextView numP, numCat, testhechos, calmedia, conexion;
     private Menu menuItems;
     private RelativeLayout rel;
     private AlertDialog aldi;
@@ -68,6 +68,7 @@ public class ResumenActivity extends AppCompatActivity {
         rel = findViewById(R.id.pantallaInicio);
         iv = findViewById(R.id.ivanim);
         btn = findViewById(R.id.anim);
+        //conexion = findViewById(R.id.conexion);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +76,11 @@ public class ResumenActivity extends AppCompatActivity {
                 mostrarAlert();
             }
         });
+
+        NetworkChangeReceiver ncr = new NetworkChangeReceiver();
+        Intent in = new Intent();
+
+        ncr.onReceive(myContext, in);
 
     }
 
@@ -121,7 +127,7 @@ public class ResumenActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.action_exportar:
-                Repositorio.cogerDatos(myContext);
+                Repositorio.cogerDatosXML(myContext);
                 exportarXML();
                 Log.i("ActionBar", "Exportar!");
                 return true;
@@ -171,6 +177,8 @@ public class ResumenActivity extends AppCompatActivity {
         MyLog.d(TAG, "Iniciando onResume...");//es como un print para mostrar mensajes y depurar
         super.onResume();
 
+
+
         numP = findViewById(R.id.numPreg);
         numCat = findViewById(R.id.numCat);
         testhechos = findViewById(R.id.testhechos);
@@ -183,6 +191,8 @@ public class ResumenActivity extends AppCompatActivity {
         btn.setText(getString(R.string.anim));
 
         MyLog.d(TAG, "Finalizando onResume...");
+
+
     }
 
     @Override
@@ -271,6 +281,7 @@ public class ResumenActivity extends AppCompatActivity {
             } else {
                 //Si algun permiso no fue aceptado retorna false
                 allGranted = false;
+                //finish();
                 break;
             }
         }
@@ -299,32 +310,32 @@ public class ResumenActivity extends AppCompatActivity {
      */
     private void exportarXML() {
         String root = Environment.getExternalStorageDirectory().toString();
-        File myDir = new File(root + "/preguntasExportadas");
+        File ruta = new File(root + "/preguntasExportadas");
         String fname = "preguntas.xml";
-        File file = new File(myDir, fname);
+        File file = new File(ruta, fname);
         try {
-            if (!myDir.exists()) {
-                myDir.mkdirs();
+            if (!ruta.exists()) {
+                ruta.mkdirs();
             }
             if (file.exists())
                 file.delete();
             FileWriter fw = new FileWriter(file);
             //Escribimos en el fichero un String
-            fw.write(Repositorio.CreateXMLString());
+            fw.write(Repositorio.crearXML());
             //Cierro el stream
             fw.close();
         } catch (Exception ex) {
             MyLog.e("Ficheros", "Error al escribir fichero");
         }
-        String cadena = myDir.getAbsolutePath() + "/" + fname;
+        String cadena = ruta.getAbsolutePath() + "/" + fname;
         Uri path = Uri.parse("file://" + cadena);
 
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", "ii.sho.hai@gmail.com", null));
+                "mailto", "adrycarpe94@gmail.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Preguntas para Moodle");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Adjunto las preguntas");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Preguntas MonMatest");
         emailIntent.putExtra(Intent.EXTRA_STREAM, path);
-        startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        startActivity(Intent.createChooser(emailIntent, "Enviar por email..."));
     }
 
     /**
@@ -348,7 +359,12 @@ public class ResumenActivity extends AppCompatActivity {
 
     }
 
-    private void mostrarAlert(){
+    /**
+     * Con este metodo, lo que hacemos es crear un alert dialog,
+     * para que cuando se pulse un boton, se muestra una serie de opciones
+     * para las distintas animaciones
+     */
+    private void mostrarAlert() {
 
         AlertDialog.Builder build = new AlertDialog.Builder(this);
 
@@ -359,24 +375,24 @@ public class ResumenActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-                if(i == 0){
+                if (i == 0) {
 
-                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.enter_bottom);
+                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this, R.anim.enter_bottom);
                     iv.startAnimation(anim);
 
-                }else if(i == 1){
+                } else if (i == 1) {
 
-                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.exit_up);
+                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this, R.anim.exit_up);
                     iv.startAnimation(anim);
 
-                }else if(i == 2){
+                } else if (i == 2) {
 
-                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.enter_right);
+                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this, R.anim.enter_right);
                     iv.startAnimation(anim);
 
-                }else if(i == 3){
+                } else if (i == 3) {
 
-                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this,R.anim.exit_left);
+                    Animation anim = AnimationUtils.loadAnimation(ResumenActivity.this, R.anim.exit_left);
                     iv.startAnimation(anim);
 
                 }

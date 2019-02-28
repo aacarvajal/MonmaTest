@@ -1,15 +1,22 @@
 package com.example.adrian.monmatest;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.util.Xml;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
 import org.xmlpull.v1.XmlSerializer;
 
 import static com.example.adrian.monmatest.Constantes.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
@@ -27,6 +34,12 @@ public class Repositorio {
     }
 
     //inserta en la base de datos todas las preguntas
+    /**
+     *
+     * @param p
+     * @param myContext
+     * @return devuelve un booleano que con la nueva pregunta
+     */
     public static boolean insertar(Pregunta p, Context myContext) {
 
         boolean bool = true;
@@ -61,6 +74,13 @@ public class Repositorio {
     }
 
     //inserta en la base de datos todas las preguntas incluyendo una foto
+
+    /**
+     *
+     * @param p
+     * @param myContext
+     * @return
+     */
     public static boolean insertarFoto(Pregunta p, Context myContext) {
 
         boolean bool = true;
@@ -95,6 +115,12 @@ public class Repositorio {
     }
 
     //este metodo se encarga de actualizar los campos de una pregunta
+
+    /**
+     *
+     * @param p
+     * @param myContext
+     */
     public void Actualizar(Pregunta p, Context myContext) {
 
         PreguntaSQLiteHelper helper =
@@ -118,12 +144,15 @@ public class Repositorio {
 
         }
 
-        //db.close();
-
-
     }
 
     //este metodo se encarga de borrar una pregunta  haciendo una comparacion de ID
+
+    /**
+     *
+     * @param p
+     * @param myContext
+     */
     public static void Borrar(Pregunta p, Context myContext) {
 
         PreguntaSQLiteHelper helper =
@@ -138,6 +167,12 @@ public class Repositorio {
     }
 
     //este metodo se encarga de mostrar todos los datos de la BD en el listado
+
+    /**
+     *
+     * @param myContext
+     * @return devolvera un arraylist de preguntas
+     */
     public ArrayList<Pregunta> Consultar(Context myContext) {
 
         pregArray = new ArrayList<>();
@@ -174,6 +209,12 @@ public class Repositorio {
 
     }
 
+    /**
+     *
+     * @param id
+     * @param myContext
+     * @return
+     */
     public static Pregunta buscPreg(int id, Context myContext) {
 
         Pregunta p = new Pregunta();
@@ -207,6 +248,11 @@ public class Repositorio {
     }
 
     //este metodo se encarga de coger y mostrar de la BD todas las categorias que ya estaban guardadas
+
+    /**
+     *
+     * @param myContext
+     */
     public static void cargarCategorias(Context myContext) {
 
 
@@ -236,6 +282,12 @@ public class Repositorio {
     }
 
     //Este metodo devolvera el total de las preguntas que se hayan creado en la BD
+
+    /**
+     *
+     * @param myContext
+     * @return
+     */
     public static String getTotalPreg(Context myContext) {
 
         String totalPreg = "";
@@ -257,6 +309,13 @@ public class Repositorio {
         return totalPreg;
     }
 
+    //Este metodo devolvera el total de las categorias que se hayan guardado en la BD
+
+    /**
+     *
+     * @param myContext
+     * @return
+     */
     public static String getTotalCat(Context myContext) {
 
         String totalCat = "";
@@ -293,7 +352,12 @@ public class Repositorio {
     }
 
     //este metodo se encarga de recoger todos los datos de las preguntas
-    public static void cogerDatos(Context myContext) {
+
+    /**
+     *
+     * @param myContext
+     */
+    public static void cogerDatosXML(Context myContext) {
         pregArray = new ArrayList<>();
         PreguntaSQLiteHelper psdbh = new PreguntaSQLiteHelper(myContext, Constantes.BD, null, 1);
 
@@ -322,7 +386,15 @@ public class Repositorio {
 
     }
 
-    public static String CreateXMLString() throws IllegalArgumentException, IllegalStateException, IOException {
+    /**
+     * Este metodo se encarga de recoger todos los datos de las preguntas creadas
+     * para ir rellenando todos las etiquetas
+     * @return
+     * @throws IllegalArgumentException
+     * @throws IllegalStateException
+     * @throws IOException
+     */
+    public static String crearXML() throws IllegalArgumentException, IllegalStateException, IOException {
         ArrayList<Pregunta> preguntasXML = new ArrayList<Pregunta>();
         preguntasXML = getListaPreguntas();
 
@@ -332,11 +404,11 @@ public class Repositorio {
 
         xmlSerializer.setOutput(writer);
 
-        //Start Document
+        //inicio del documento
         xmlSerializer.startDocument("UTF-8", true);
         xmlSerializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
 
-        //Open Tag <file>
+        //apertura de etiqueta <file>
         xmlSerializer.startTag("", "quiz");
 
         for (Pregunta p : preguntasXML) {
@@ -387,7 +459,9 @@ public class Repositorio {
             xmlSerializer.endTag("", "question");
         }
 
+        //cierre de la etiqueta
         xmlSerializer.endTag("", "quiz");
+
         xmlSerializer.endDocument();
         return writer.toString();
 

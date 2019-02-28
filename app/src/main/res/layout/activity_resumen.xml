@@ -71,4 +71,13 @@
         android:layout_marginTop="222dp"
         app:srcCompat="@drawable/app" />
 
+    <TextView
+        android:id="@+id/conexion"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="-28dp"
+        android:layout_marginBottom="37dp"
+        android:layout_toEndOf="@+id/calmedia" />
+
 </RelativeLayout>

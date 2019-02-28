@@ -24,9 +24,13 @@ public class Constantes {
 
     //Permisos
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1 ;
-    public static final int MY_PERMISSIONS_REQUEST_CAMERA = 23 ;
+    //public static final int MY_PERMISSIONS_REQUEST_CAMERA = 23 ;
     public static final int CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 123;
-    public static final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    public static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
+    public static final int MULTIPLE_PERMISSIONS_REQUEST_CODE = 3;
+    public static final int REQUEST_CODE_INTERNET = 32;
+    public static final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    Manifest.permission.INTERNET};
 
     //fotos
     public static final int REQUEST_CAPTURE_IMAGE = 200;
@@ -35,4 +39,9 @@ public class Constantes {
     //configuracion-pref
     public static final String ID_IDIOMA = "opc_idioma";
     public static final String IDIOMA_DEFAULT = "es";
+
+    //conexiones internet
+    public static final int TYPE_WIFI = 1;
+    public static final int TYPE_MOBILE = 2;
+    public static final int TYPE_NOT_CONNECTED = 324;
 }
